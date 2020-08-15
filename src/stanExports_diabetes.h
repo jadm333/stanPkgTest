@@ -33,15 +33,1634 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_diabetes");
-    reader.add_event(32, 30, "end", "model_diabetes");
+    reader.add_event(812, 810, "end", "model_diabetes");
     return reader;
 }
+template <typename T0__, typename T1__, class RNG>
+typename boost::math::tools::promote_args<T0__, T1__>::type
+ro_rng(const T0__& mu,
+           const T1__& sigma, RNG& base_rng__, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 3;
+        local_scalar_t__ p(DUMMY_VAR__);
+        (void) p;  // dummy to suppress unused var warning
+        stan::math::initialize(p, DUMMY_VAR__);
+        stan::math::fill(p, DUMMY_VAR__);
+        stan::math::assign(p,normal_cdf(0, mu, sigma));
+        current_statement_begin__ = 4;
+        local_scalar_t__ u(DUMMY_VAR__);
+        (void) u;  // dummy to suppress unused var warning
+        stan::math::initialize(u, DUMMY_VAR__);
+        stan::math::fill(u, DUMMY_VAR__);
+        stan::math::assign(u,uniform_rng(p, 1, base_rng__));
+        current_statement_begin__ = 5;
+        local_scalar_t__ z(DUMMY_VAR__);
+        (void) z;  // dummy to suppress unused var warning
+        stan::math::initialize(z, DUMMY_VAR__);
+        stan::math::fill(z, DUMMY_VAR__);
+        stan::math::assign(z,inv_Phi(u));
+        current_statement_begin__ = 6;
+        local_scalar_t__ y(DUMMY_VAR__);
+        (void) y;  // dummy to suppress unused var warning
+        stan::math::initialize(y, DUMMY_VAR__);
+        stan::math::fill(y, DUMMY_VAR__);
+        stan::math::assign(y,(mu + (sigma * z)));
+        current_statement_begin__ = 7;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(y);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct ro_rng_functor__ {
+    template <typename T0__, typename T1__, class RNG>
+        typename boost::math::tools::promote_args<T0__, T1__>::type
+    operator()(const T0__& mu,
+           const T1__& sigma, RNG& base_rng__, std::ostream* pstream__) const {
+        return ro_rng(mu, sigma, base_rng__, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__>::type>::type>::type>
+simCHF(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& age_diab,
+           const T4__& bmi,
+           const T5__& ldl,
+           const T6__& amp,
+           const T7__& ulcer,
+           const T8__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 11;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 12;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 13;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 14;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 15;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 17;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 18;
+        stan::math::assign(predictor, (((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (bmi * get_base1(temp, 13, "temp", 1))) + (ldl * get_base1(temp, 8, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))) + (ulcer * get_base1(temp, 15, "temp", 1))));
+        current_statement_begin__ = 19;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 20;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 21;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 22;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 23;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(19), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 24;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(24), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 26;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simCHF_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& age_diab,
+           const T4__& bmi,
+           const T5__& ldl,
+           const T6__& amp,
+           const T7__& ulcer,
+           const T8__& rand, std::ostream* pstream__) const {
+        return simCHF(update, intercept, ro, age_diab, bmi, ldl, amp, ulcer, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+simIHD(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& age_diab,
+           const T4__& ldl,
+           const T5__& amp,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& hdl,
+           const T9__& female,
+           const T10__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 30;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 31;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 32;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 33;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 34;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 36;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 37;
+        stan::math::assign(predictor, (((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (ldl * get_base1(temp, 8, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))) + (chf * get_base1(temp, 19, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (hdl * get_base1(temp, 9, "temp", 1))) + (female * get_base1(temp, 3, "temp", 1))));
+        current_statement_begin__ = 38;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 39;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 40;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 41;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 42;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(18), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 43;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(25), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 45;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simIHD_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& age_diab,
+           const T4__& ldl,
+           const T5__& amp,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& hdl,
+           const T9__& female,
+           const T10__& rand, std::ostream* pstream__) const {
+        return simIHD(update, intercept, ro, age_diab, ldl, amp, chf, sbp, hdl, female, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__, typename T12__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__>::type>::type>::type>::type>
+simMIm(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& hb1ac,
+           const T3__& age_diab,
+           const T4__& ldl,
+           const T5__& amp,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& hdl,
+           const T9__& smoker,
+           const T10__& ihd,
+           const T11__& stroke,
+           const T12__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__>::type>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 49;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 50;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 51;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 52;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 53;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 55;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 56;
+        stan::math::assign(predictor, ((((((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (ldl * get_base1(temp, 8, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))) + (chf * get_base1(temp, 19, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (hdl * get_base1(temp, 9, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))) + (ihd * get_base1(temp, 18, "temp", 1))) + (stroke * get_base1(temp, 17, "temp", 1))));
+        current_statement_begin__ = 58;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 59;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 60;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 61;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 62;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(16), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 63;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(26), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 65;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simMIm_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__, typename T12__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__>::type>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& hb1ac,
+           const T3__& age_diab,
+           const T4__& ldl,
+           const T5__& amp,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& hdl,
+           const T9__& smoker,
+           const T10__& ihd,
+           const T11__& stroke,
+           const T12__& rand, std::ostream* pstream__) const {
+        return simMIm(update, intercept, hb1ac, age_diab, ldl, amp, chf, sbp, hdl, smoker, ihd, stroke, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+simMIf(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& hb1ac,
+           const T4__& age_diab,
+           const T5__& ldl,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& smoker,
+           const T9__& ihd,
+           const T10__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 69;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 70;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 71;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 72;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 73;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 75;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 76;
+        stan::math::assign(predictor, (((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (ldl * (logical_gt(get_base1(temp, 8, "temp", 1), 35) ? 1 : 0 ))) + (chf * get_base1(temp, 19, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))) + (ihd * get_base1(temp, 18, "temp", 1))));
+        current_statement_begin__ = 78;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 79;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 80;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 81;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 82;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(16), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 83;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(26), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 85;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simMIf_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ro,
+           const T3__& hb1ac,
+           const T4__& age_diab,
+           const T5__& ldl,
+           const T6__& chf,
+           const T7__& sbp,
+           const T8__& smoker,
+           const T9__& ihd,
+           const T10__& rand, std::ostream* pstream__) const {
+        return simMIf(update, intercept, ro, hb1ac, age_diab, ldl, chf, sbp, smoker, ihd, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+simMI2(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ldl,
+           const T3__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 88;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 89;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 90;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 91;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 92;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 94;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 95;
+        stan::math::assign(predictor, (intercept + (ldl * get_base1(temp, 8, "temp", 1))));
+        current_statement_begin__ = 96;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 97;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 98;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 99;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 100;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(16), stan::model::nil_index_list()), 
+                        2, 
+                        "assigning variable temp");
+            current_statement_begin__ = 101;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(26), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 103;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simMI2_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+    operator()(const std::vector<T0__>& update,
+           const T1__& intercept,
+           const T2__& ldl,
+           const T3__& rand, std::ostream* pstream__) const {
+        return simMI2(update, intercept, ldl, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__>::type>::type>::type>
+simStroke(const std::vector<T0__>& update,
+              const T1__& intercept,
+              const T2__& ro,
+              const T3__& hb1ac,
+              const T4__& age_diab,
+              const T5__& ldl,
+              const T6__& sbp,
+              const T7__& smoker,
+              const T8__& ihd,
+              const T9__& female,
+              const T10__& amp,
+              const T11__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 107;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 108;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 109;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 110;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 111;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 113;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 114;
+        stan::math::assign(predictor, ((((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (ldl * get_base1(temp, 8, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (female * get_base1(temp, 3, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))) + (ihd * get_base1(temp, 18, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))));
+        current_statement_begin__ = 116;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 117;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 118;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 119;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 120;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(17), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 121;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(27), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 123;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simStroke_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+              const T1__& intercept,
+              const T2__& ro,
+              const T3__& hb1ac,
+              const T4__& age_diab,
+              const T5__& ldl,
+              const T6__& sbp,
+              const T7__& smoker,
+              const T8__& ihd,
+              const T9__& female,
+              const T10__& amp,
+              const T11__& rand, std::ostream* pstream__) const {
+        return simStroke(update, intercept, ro, hb1ac, age_diab, ldl, sbp, smoker, ihd, female, amp, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type>
+simStroke2(const std::vector<T0__>& update,
+               const T1__& intercept,
+               const T2__& ro,
+               const T3__& age_diab,
+               const T4__& smoker,
+               const T5__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 126;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 127;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 128;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 129;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 130;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 132;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 133;
+        stan::math::assign(predictor, ((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))));
+        current_statement_begin__ = 134;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 135;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 136;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 137;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 138;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(17), stan::model::nil_index_list()), 
+                        2, 
+                        "assigning variable temp");
+            current_statement_begin__ = 139;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(27), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 141;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simStroke2_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type>
+    operator()(const std::vector<T0__>& update,
+               const T1__& intercept,
+               const T2__& ro,
+               const T3__& age_diab,
+               const T4__& smoker,
+               const T5__& rand, std::ostream* pstream__) const {
+        return simStroke2(update, intercept, ro, age_diab, smoker, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__>::type>::type>
+simBlind(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& hb1ac,
+             const T4__& sbp,
+             const T5__& chf,
+             const T6__& ihd,
+             const T7__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 145;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 146;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 147;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 148;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 149;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 151;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 152;
+        stan::math::assign(predictor, (((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (chf * get_base1(temp, 19, "temp", 1))) + (ihd * get_base1(temp, 18, "temp", 1))));
+        current_statement_begin__ = 154;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 155;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 156;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 157;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 158;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(20), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 159;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(28), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 161;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simBlind_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__>::type>::type>
+    operator()(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& hb1ac,
+             const T4__& sbp,
+             const T5__& chf,
+             const T6__& ihd,
+             const T7__& rand, std::ostream* pstream__) const {
+        return simBlind(update, intercept, age_diab, hb1ac, sbp, chf, ihd, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__>::type>::type>
+simUlcer(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& female,
+             const T4__& bmi,
+             const T5__& hb1ac,
+             const T6__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 165;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 166;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 167;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 168;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 170;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 171;
+        stan::math::assign(predictor, ((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (bmi * get_base1(temp, 13, "temp", 1))) + (female * get_base1(temp, 3, "temp", 1))));
+        current_statement_begin__ = 173;
+        stan::math::assign(H1, (stan::math::exp(-(predictor)) / (1 + stan::math::exp(-(predictor)))));
+        current_statement_begin__ = 174;
+        stan::math::assign(prob, (1 - H1));
+        current_statement_begin__ = 175;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 176;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(15), stan::model::nil_index_list()), 
+                        (stan::model::rvalue(temp, stan::model::cons_list(stan::model::index_uni(15), stan::model::nil_index_list()), "temp") + 1), 
+                        "assigning variable temp");
+            current_statement_begin__ = 177;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(29), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 179;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simUlcer_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__>::type>::type>
+    operator()(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& female,
+             const T4__& bmi,
+             const T5__& hb1ac,
+             const T6__& rand, std::ostream* pstream__) const {
+        return simUlcer(update, intercept, age_diab, female, bmi, hb1ac, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type>
+simAmp_noUlcer(const std::vector<T0__>& update,
+                   const T1__& intercept,
+                   const T2__& ro,
+                   const T3__& hb1ac,
+                   const T4__& age_diab,
+                   const T5__& hdl,
+                   const T6__& sbp,
+                   const T7__& stroke,
+                   const T8__& female,
+                   const T9__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 183;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 184;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 185;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 186;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 187;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 189;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 190;
+        stan::math::assign(predictor, ((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (hdl * get_base1(temp, 9, "temp", 1))) + (sbp * get_base1(temp, 14, "temp", 1))) + (female * get_base1(temp, 3, "temp", 1))) + (hb1ac * get_base1(temp, 7, "temp", 1))) + (stroke * get_base1(temp, 17, "temp", 1))));
+        current_statement_begin__ = 192;
+        stan::math::assign(H1, (stan::math::exp(predictor) * pow(get_base1(temp, 12, "temp", 1), ro)));
+        current_statement_begin__ = 193;
+        stan::math::assign(H2, (stan::math::exp(predictor) * pow((get_base1(temp, 12, "temp", 1) + 1), ro)));
+        current_statement_begin__ = 194;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 195;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 196;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(21), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 197;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(30), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 199;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simAmp_noUlcer_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+                   const T1__& intercept,
+                   const T2__& ro,
+                   const T3__& hb1ac,
+                   const T4__& age_diab,
+                   const T5__& hdl,
+                   const T6__& sbp,
+                   const T7__& stroke,
+                   const T8__& female,
+                   const T9__& rand, std::ostream* pstream__) const {
+        return simAmp_noUlcer(update, intercept, ro, hb1ac, age_diab, hdl, sbp, stroke, female, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+simAmp_Ulcer(const std::vector<T0__>& update,
+                 const T1__& intercept,
+                 const T2__& age_diab,
+                 const T3__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 202;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 203;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 204;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 205;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 206;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 208;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 209;
+        stan::math::assign(predictor, (intercept + (age_diab * get_base1(temp, 2, "temp", 1))));
+        current_statement_begin__ = 210;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 211;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 212;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 213;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 214;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(21), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 215;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(30), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 217;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simAmp_Ulcer_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+    operator()(const std::vector<T0__>& update,
+                 const T1__& intercept,
+                 const T2__& age_diab,
+                 const T3__& rand, std::ostream* pstream__) const {
+        return simAmp_Ulcer(update, intercept, age_diab, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+simAmp2(const std::vector<T0__>& update,
+            const T1__& intercept,
+            const T2__& hb1ac,
+            const T3__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 220;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 221;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 222;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 223;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 224;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 226;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 227;
+        stan::math::assign(predictor, (intercept + (hb1ac * get_base1(temp, 7, "temp", 1))));
+        current_statement_begin__ = 228;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 229;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 230;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 231;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 232;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(21), stan::model::nil_index_list()), 
+                        2, 
+                        "assigning variable temp");
+            current_statement_begin__ = 233;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(30), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 235;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simAmp2_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__>::type>
+    operator()(const std::vector<T0__>& update,
+            const T1__& intercept,
+            const T2__& hb1ac,
+            const T3__& rand, std::ostream* pstream__) const {
+        return simAmp2(update, intercept, hb1ac, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type>
+simRenal(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& female,
+             const T4__& bmi,
+             const T5__& ldl,
+             const T6__& sbp,
+             const T7__& amp,
+             const T8__& blind,
+             const T9__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 239;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 240;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 241;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 242;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 243;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 245;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 246;
+        stan::math::assign(predictor, (((((((intercept + (age_diab * get_base1(temp, 2, "temp", 1))) + (bmi * get_base1(temp, 13, "temp", 1))) + (ldl * get_base1(temp, 8, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))) + (blind * get_base1(temp, 20, "temp", 1))) + (female * get_base1(temp, 3, "temp", 1))) + (sbp * get_base1(temp, 6, "temp", 1))));
+        current_statement_begin__ = 248;
+        stan::math::assign(H1, (stan::math::exp(predictor) * get_base1(temp, 12, "temp", 1)));
+        current_statement_begin__ = 249;
+        stan::math::assign(H2, (stan::math::exp(predictor) * (get_base1(temp, 12, "temp", 1) + 1)));
+        current_statement_begin__ = 250;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 251;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 252;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(22), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+            current_statement_begin__ = 253;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(31), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 255;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simRenal_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+             const T1__& intercept,
+             const T2__& age_diab,
+             const T3__& female,
+             const T4__& bmi,
+             const T5__& ldl,
+             const T6__& sbp,
+             const T7__& amp,
+             const T8__& blind,
+             const T9__& rand, std::ostream* pstream__) const {
+        return simRenal(update, intercept, age_diab, female, bmi, ldl, sbp, amp, blind, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type>
+simDeath_nohist(const std::vector<T0__>& update,
+                    const T1__& intercept,
+                    const T2__& phi,
+                    const T3__& female,
+                    const T4__& smoker,
+                    const T5__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 258;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 259;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 260;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 261;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 262;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 264;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 265;
+        stan::math::assign(predictor, ((intercept + (female * get_base1(temp, 3, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))));
+        current_statement_begin__ = 266;
+        stan::math::assign(H1, ((stan::math::exp(predictor) * (stan::math::exp((phi * get_base1(temp, 1, "temp", 1))) - 1)) / phi));
+        current_statement_begin__ = 267;
+        stan::math::assign(H2, ((stan::math::exp(predictor) * (stan::math::exp((phi * (get_base1(temp, 1, "temp", 1) + 1))) - 1)) / phi));
+        current_statement_begin__ = 268;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 269;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 270;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(23), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 272;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simDeath_nohist_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__>::type>::type>
+    operator()(const std::vector<T0__>& update,
+                    const T1__& intercept,
+                    const T2__& phi,
+                    const T3__& female,
+                    const T4__& smoker,
+                    const T5__& rand, std::ostream* pstream__) const {
+        return simDeath_nohist(update, intercept, phi, female, smoker, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+simDeath1st(const std::vector<T0__>& update,
+                const T1__& intercept,
+                const T2__& year,
+                const T3__& age,
+                const T4__& smoker,
+                const T5__& amp_event,
+                const T6__& ihd_event,
+                const T7__& mi_event,
+                const T8__& renal_event,
+                const T9__& stroke_event,
+                const T10__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 276;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 277;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 278;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 279;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 281;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 282;
+        stan::math::assign(predictor, ((((((((intercept + (year * get_base1(temp, 12, "temp", 1))) + (age * get_base1(temp, 1, "temp", 1))) + (smoker * get_base1(temp, 5, "temp", 1))) + (amp_event * get_base1(temp, 30, "temp", 1))) + (ihd_event * get_base1(temp, 25, "temp", 1))) + (mi_event * get_base1(temp, 26, "temp", 1))) + (renal_event * get_base1(temp, 31, "temp", 1))) + (stroke_event * get_base1(temp, 27, "temp", 1))));
+        current_statement_begin__ = 284;
+        stan::math::assign(H1, (stan::math::exp(-(predictor)) / (1 + stan::math::exp(-(predictor)))));
+        current_statement_begin__ = 285;
+        stan::math::assign(prob, (1 - H1));
+        current_statement_begin__ = 286;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 287;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(23), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 289;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simDeath1st_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+                const T1__& intercept,
+                const T2__& year,
+                const T3__& age,
+                const T4__& smoker,
+                const T5__& amp_event,
+                const T6__& ihd_event,
+                const T7__& mi_event,
+                const T8__& renal_event,
+                const T9__& stroke_event,
+                const T10__& rand, std::ostream* pstream__) const {
+        return simDeath1st(update, intercept, year, age, smoker, amp_event, ihd_event, mi_event, renal_event, stroke_event, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+simDeath_hist(const std::vector<T0__>& update,
+                  const T1__& intercept,
+                  const T2__& phi,
+                  const T3__& bm1,
+                  const T4__& bm2,
+                  const T5__& smoker,
+                  const T6__& amp,
+                  const T7__& chf,
+                  const T8__& renal,
+                  const T9__& stroke,
+                  const T10__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 294;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 295;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 296;
+        local_scalar_t__ H2(DUMMY_VAR__);
+        (void) H2;  // dummy to suppress unused var warning
+        stan::math::initialize(H2, DUMMY_VAR__);
+        stan::math::fill(H2, DUMMY_VAR__);
+        stan::math::assign(H2,H1);
+        current_statement_begin__ = 297;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 298;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 300;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 301;
+        stan::math::assign(predictor, (((((((intercept + (bm1 * (logical_lt(get_base1(temp, 13, "temp", 1), 18.5) ? 1 : 0 ))) + (bm2 * (logical_gt(get_base1(temp, 13, "temp", 1), 25) ? 1 : 0 ))) + (smoker * get_base1(temp, 5, "temp", 1))) + (amp * get_base1(temp, 21, "temp", 1))) + (chf * get_base1(temp, 19, "temp", 1))) + (renal * get_base1(temp, 22, "temp", 1))) + (stroke * get_base1(temp, 17, "temp", 1))));
+        current_statement_begin__ = 303;
+        stan::math::assign(H1, ((stan::math::exp(predictor) * (stan::math::exp((phi * get_base1(temp, 1, "temp", 1))) - 1)) / phi));
+        current_statement_begin__ = 304;
+        stan::math::assign(H2, ((stan::math::exp(predictor) * (stan::math::exp((phi * (get_base1(temp, 1, "temp", 1) + 1))) - 1)) / phi));
+        current_statement_begin__ = 305;
+        stan::math::assign(prob, (1 - stan::math::exp((H1 - H2))));
+        current_statement_begin__ = 306;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 307;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(23), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 309;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simDeath_hist_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+                  const T1__& intercept,
+                  const T2__& phi,
+                  const T3__& bm1,
+                  const T4__& bm2,
+                  const T5__& smoker,
+                  const T6__& amp,
+                  const T7__& chf,
+                  const T8__& renal,
+                  const T9__& stroke,
+                  const T10__& rand, std::ostream* pstream__) const {
+        return simDeath_hist(update, intercept, phi, bm1, bm2, smoker, amp, chf, renal, stroke, rand, pstream__);
+    }
+};
+template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__, typename T12__, typename T13__>
+std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__, T13__>::type>::type>::type>::type>
+simDeath_sub(const std::vector<T0__>& update,
+                 const T1__& intercept,
+                 const T2__& age,
+                 const T3__& hdl,
+                 const T4__& amp_event,
+                 const T5__& amp,
+                 const T6__& amp_event2,
+                 const T7__& ihd_event,
+                 const T8__& ihd,
+                 const T9__& mi_event,
+                 const T10__& mi,
+                 const T11__& renal,
+                 const T12__& stroke_event,
+                 const T13__& rand, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__, T13__>::type>::type>::type>::type local_scalar_t__;
+    typedef local_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        local_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+    int current_statement_begin__ = -1;
+    try {
+        {
+        current_statement_begin__ = 313;
+        local_scalar_t__ predictor(DUMMY_VAR__);
+        (void) predictor;  // dummy to suppress unused var warning
+        stan::math::initialize(predictor, DUMMY_VAR__);
+        stan::math::fill(predictor, DUMMY_VAR__);
+        current_statement_begin__ = 314;
+        local_scalar_t__ H1(DUMMY_VAR__);
+        (void) H1;  // dummy to suppress unused var warning
+        stan::math::initialize(H1, DUMMY_VAR__);
+        stan::math::fill(H1, DUMMY_VAR__);
+        current_statement_begin__ = 315;
+        local_scalar_t__ prob(DUMMY_VAR__);
+        (void) prob;  // dummy to suppress unused var warning
+        stan::math::initialize(prob, DUMMY_VAR__);
+        stan::math::fill(prob, DUMMY_VAR__);
+        current_statement_begin__ = 316;
+        validate_non_negative_index("temp", "size(update)", size(update));
+        std::vector<local_scalar_t__  > temp(size(update), local_scalar_t__(DUMMY_VAR__));
+        stan::math::initialize(temp, DUMMY_VAR__);
+        stan::math::fill(temp, DUMMY_VAR__);
+        current_statement_begin__ = 318;
+        stan::math::assign(temp, update);
+        current_statement_begin__ = 319;
+        stan::math::assign(predictor, ((((((((((intercept + (age * get_base1(temp, 1, "temp", 1))) + (hdl * get_base1(temp, 9, "temp", 1))) + (amp_event * (logical_eq(get_base1(temp, 30, "temp", 1), 1) ? 1 : 0 ))) + (amp_event2 * (logical_eq(get_base1(temp, 21, "temp", 1), 2) ? 1 : 0 ))) + (amp * (logical_eq(get_base1(temp, 21, "temp", 1), 1) ? 1 : 0 ))) + (ihd * get_base1(temp, 18, "temp", 1))) + (mi_event * get_base1(temp, 26, "temp", 1))) + (mi * get_base1(temp, 16, "temp", 1))) + (renal * get_base1(temp, 22, "temp", 1))) + (stroke_event * get_base1(temp, 27, "temp", 1))));
+        current_statement_begin__ = 321;
+        stan::math::assign(H1, (stan::math::exp(-(predictor)) / (1 + stan::math::exp(-(predictor)))));
+        current_statement_begin__ = 322;
+        stan::math::assign(prob, (1 - H1));
+        current_statement_begin__ = 323;
+        if (as_bool(logical_gt(prob, rand))) {
+            current_statement_begin__ = 324;
+            stan::model::assign(temp, 
+                        stan::model::cons_list(stan::model::index_uni(23), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable temp");
+        }
+        current_statement_begin__ = 326;
+        return stan::math::promote_scalar<fun_return_scalar_t__>(temp);
+        }
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+struct simDeath_sub_functor__ {
+    template <typename T0__, typename T1__, typename T2__, typename T3__, typename T4__, typename T5__, typename T6__, typename T7__, typename T8__, typename T9__, typename T10__, typename T11__, typename T12__, typename T13__>
+        std::vector<typename boost::math::tools::promote_args<T0__, T1__, T2__, T3__, typename boost::math::tools::promote_args<T4__, T5__, T6__, T7__, typename boost::math::tools::promote_args<T8__, T9__, T10__, T11__, typename boost::math::tools::promote_args<T12__, T13__>::type>::type>::type>::type>
+    operator()(const std::vector<T0__>& update,
+                 const T1__& intercept,
+                 const T2__& age,
+                 const T3__& hdl,
+                 const T4__& amp_event,
+                 const T5__& amp,
+                 const T6__& amp_event2,
+                 const T7__& ihd_event,
+                 const T8__& ihd,
+                 const T9__& mi_event,
+                 const T10__& mi,
+                 const T11__& renal,
+                 const T12__& stroke_event,
+                 const T13__& rand, std::ostream* pstream__) const {
+        return simDeath_sub(update, intercept, age, hdl, amp_event, amp, amp_event2, ihd_event, ihd, mi_event, mi, renal, stroke_event, rand, pstream__);
+    }
+};
 #include <stan_meta_header.hpp>
 class model_diabetes
   : public stan::model::model_base_crtp<model_diabetes> {
 private:
-        int N;
-        vector_d y;
+        int complicaciones;
+        int time;
+        int len_his;
+        double ag;
+        double age_dia;
+        double woma;
+        double eth;
+        double smok;
+        double sb;
+        double hba1;
+        double ld;
+        double hd;
+        double weigh;
+        double tall;
+        double mii;
+        double strok;
+        double ih;
+        double ch;
+        double blin;
+        double ampu;
+        double rena;
+        double ulce;
+        double hba1c_red1_comp1_mean;
+        double hba1c_red1_comp1_se;
+        double weight_red1_comp1_mean;
+        double weight_red1_comp1_se;
+        double sbp_red1_comp1_mean;
+        double sbp_red1_comp1_se;
+        double ldl_red1_comp1_mean;
+        double ldl_red1_comp1_se;
+        double hdl_red1_comp1_mean;
+        double hdl_red1_comp1_se;
+        double t_sbp_red1_comp1_mean;
+        double t_sbp_red1_comp1_se;
 public:
     model_diabetes(stan::io::var_context& context__,
         std::ostream* pstream__ = 0)
@@ -72,33 +1691,222 @@ public:
         (void) DUMMY_VAR__;  // suppress unused var warning
         try {
             // initialize data block variables from context__
-            current_statement_begin__ = 14;
-            context__.validate_dims("data initialization", "N", "int", context__.to_vec());
-            N = int(0);
-            vals_i__ = context__.vals_i("N");
+            current_statement_begin__ = 332;
+            context__.validate_dims("data initialization", "complicaciones", "int", context__.to_vec());
+            complicaciones = int(0);
+            vals_i__ = context__.vals_i("complicaciones");
             pos__ = 0;
-            N = vals_i__[pos__++];
-            check_greater_or_equal(function__, "N", N, 0);
-            current_statement_begin__ = 15;
-            validate_non_negative_index("y", "N", N);
-            context__.validate_dims("data initialization", "y", "vector_d", context__.to_vec(N));
-            y = Eigen::Matrix<double, Eigen::Dynamic, 1>(N);
-            vals_r__ = context__.vals_r("y");
+            complicaciones = vals_i__[pos__++];
+            check_greater_or_equal(function__, "complicaciones", complicaciones, 1);
+            current_statement_begin__ = 333;
+            context__.validate_dims("data initialization", "time", "int", context__.to_vec());
+            time = int(0);
+            vals_i__ = context__.vals_i("time");
             pos__ = 0;
-            size_t y_j_1_max__ = N;
-            for (size_t j_1__ = 0; j_1__ < y_j_1_max__; ++j_1__) {
-                y(j_1__) = vals_r__[pos__++];
-            }
+            time = vals_i__[pos__++];
+            check_greater_or_equal(function__, "time", time, 1);
+            current_statement_begin__ = 334;
+            context__.validate_dims("data initialization", "len_his", "int", context__.to_vec());
+            len_his = int(0);
+            vals_i__ = context__.vals_i("len_his");
+            pos__ = 0;
+            len_his = vals_i__[pos__++];
+            check_greater_or_equal(function__, "len_his", len_his, 1);
+            current_statement_begin__ = 337;
+            context__.validate_dims("data initialization", "ag", "double", context__.to_vec());
+            ag = double(0);
+            vals_r__ = context__.vals_r("ag");
+            pos__ = 0;
+            ag = vals_r__[pos__++];
+            current_statement_begin__ = 338;
+            context__.validate_dims("data initialization", "age_dia", "double", context__.to_vec());
+            age_dia = double(0);
+            vals_r__ = context__.vals_r("age_dia");
+            pos__ = 0;
+            age_dia = vals_r__[pos__++];
+            current_statement_begin__ = 339;
+            context__.validate_dims("data initialization", "woma", "double", context__.to_vec());
+            woma = double(0);
+            vals_r__ = context__.vals_r("woma");
+            pos__ = 0;
+            woma = vals_r__[pos__++];
+            current_statement_begin__ = 340;
+            context__.validate_dims("data initialization", "eth", "double", context__.to_vec());
+            eth = double(0);
+            vals_r__ = context__.vals_r("eth");
+            pos__ = 0;
+            eth = vals_r__[pos__++];
+            current_statement_begin__ = 341;
+            context__.validate_dims("data initialization", "smok", "double", context__.to_vec());
+            smok = double(0);
+            vals_r__ = context__.vals_r("smok");
+            pos__ = 0;
+            smok = vals_r__[pos__++];
+            current_statement_begin__ = 342;
+            context__.validate_dims("data initialization", "sb", "double", context__.to_vec());
+            sb = double(0);
+            vals_r__ = context__.vals_r("sb");
+            pos__ = 0;
+            sb = vals_r__[pos__++];
+            current_statement_begin__ = 343;
+            context__.validate_dims("data initialization", "hba1", "double", context__.to_vec());
+            hba1 = double(0);
+            vals_r__ = context__.vals_r("hba1");
+            pos__ = 0;
+            hba1 = vals_r__[pos__++];
+            current_statement_begin__ = 344;
+            context__.validate_dims("data initialization", "ld", "double", context__.to_vec());
+            ld = double(0);
+            vals_r__ = context__.vals_r("ld");
+            pos__ = 0;
+            ld = vals_r__[pos__++];
+            current_statement_begin__ = 345;
+            context__.validate_dims("data initialization", "hd", "double", context__.to_vec());
+            hd = double(0);
+            vals_r__ = context__.vals_r("hd");
+            pos__ = 0;
+            hd = vals_r__[pos__++];
+            current_statement_begin__ = 346;
+            context__.validate_dims("data initialization", "weigh", "double", context__.to_vec());
+            weigh = double(0);
+            vals_r__ = context__.vals_r("weigh");
+            pos__ = 0;
+            weigh = vals_r__[pos__++];
+            current_statement_begin__ = 347;
+            context__.validate_dims("data initialization", "tall", "double", context__.to_vec());
+            tall = double(0);
+            vals_r__ = context__.vals_r("tall");
+            pos__ = 0;
+            tall = vals_r__[pos__++];
+            current_statement_begin__ = 348;
+            context__.validate_dims("data initialization", "mii", "double", context__.to_vec());
+            mii = double(0);
+            vals_r__ = context__.vals_r("mii");
+            pos__ = 0;
+            mii = vals_r__[pos__++];
+            current_statement_begin__ = 349;
+            context__.validate_dims("data initialization", "strok", "double", context__.to_vec());
+            strok = double(0);
+            vals_r__ = context__.vals_r("strok");
+            pos__ = 0;
+            strok = vals_r__[pos__++];
+            current_statement_begin__ = 350;
+            context__.validate_dims("data initialization", "ih", "double", context__.to_vec());
+            ih = double(0);
+            vals_r__ = context__.vals_r("ih");
+            pos__ = 0;
+            ih = vals_r__[pos__++];
+            current_statement_begin__ = 351;
+            context__.validate_dims("data initialization", "ch", "double", context__.to_vec());
+            ch = double(0);
+            vals_r__ = context__.vals_r("ch");
+            pos__ = 0;
+            ch = vals_r__[pos__++];
+            current_statement_begin__ = 352;
+            context__.validate_dims("data initialization", "blin", "double", context__.to_vec());
+            blin = double(0);
+            vals_r__ = context__.vals_r("blin");
+            pos__ = 0;
+            blin = vals_r__[pos__++];
+            current_statement_begin__ = 353;
+            context__.validate_dims("data initialization", "ampu", "double", context__.to_vec());
+            ampu = double(0);
+            vals_r__ = context__.vals_r("ampu");
+            pos__ = 0;
+            ampu = vals_r__[pos__++];
+            current_statement_begin__ = 354;
+            context__.validate_dims("data initialization", "rena", "double", context__.to_vec());
+            rena = double(0);
+            vals_r__ = context__.vals_r("rena");
+            pos__ = 0;
+            rena = vals_r__[pos__++];
+            current_statement_begin__ = 355;
+            context__.validate_dims("data initialization", "ulce", "double", context__.to_vec());
+            ulce = double(0);
+            vals_r__ = context__.vals_r("ulce");
+            pos__ = 0;
+            ulce = vals_r__[pos__++];
+            current_statement_begin__ = 358;
+            context__.validate_dims("data initialization", "hba1c_red1_comp1_mean", "double", context__.to_vec());
+            hba1c_red1_comp1_mean = double(0);
+            vals_r__ = context__.vals_r("hba1c_red1_comp1_mean");
+            pos__ = 0;
+            hba1c_red1_comp1_mean = vals_r__[pos__++];
+            current_statement_begin__ = 359;
+            context__.validate_dims("data initialization", "hba1c_red1_comp1_se", "double", context__.to_vec());
+            hba1c_red1_comp1_se = double(0);
+            vals_r__ = context__.vals_r("hba1c_red1_comp1_se");
+            pos__ = 0;
+            hba1c_red1_comp1_se = vals_r__[pos__++];
+            check_greater_or_equal(function__, "hba1c_red1_comp1_se", hba1c_red1_comp1_se, 0);
+            current_statement_begin__ = 360;
+            context__.validate_dims("data initialization", "weight_red1_comp1_mean", "double", context__.to_vec());
+            weight_red1_comp1_mean = double(0);
+            vals_r__ = context__.vals_r("weight_red1_comp1_mean");
+            pos__ = 0;
+            weight_red1_comp1_mean = vals_r__[pos__++];
+            current_statement_begin__ = 361;
+            context__.validate_dims("data initialization", "weight_red1_comp1_se", "double", context__.to_vec());
+            weight_red1_comp1_se = double(0);
+            vals_r__ = context__.vals_r("weight_red1_comp1_se");
+            pos__ = 0;
+            weight_red1_comp1_se = vals_r__[pos__++];
+            check_greater_or_equal(function__, "weight_red1_comp1_se", weight_red1_comp1_se, 0);
+            current_statement_begin__ = 362;
+            context__.validate_dims("data initialization", "sbp_red1_comp1_mean", "double", context__.to_vec());
+            sbp_red1_comp1_mean = double(0);
+            vals_r__ = context__.vals_r("sbp_red1_comp1_mean");
+            pos__ = 0;
+            sbp_red1_comp1_mean = vals_r__[pos__++];
+            current_statement_begin__ = 363;
+            context__.validate_dims("data initialization", "sbp_red1_comp1_se", "double", context__.to_vec());
+            sbp_red1_comp1_se = double(0);
+            vals_r__ = context__.vals_r("sbp_red1_comp1_se");
+            pos__ = 0;
+            sbp_red1_comp1_se = vals_r__[pos__++];
+            check_greater_or_equal(function__, "sbp_red1_comp1_se", sbp_red1_comp1_se, 0);
+            current_statement_begin__ = 364;
+            context__.validate_dims("data initialization", "ldl_red1_comp1_mean", "double", context__.to_vec());
+            ldl_red1_comp1_mean = double(0);
+            vals_r__ = context__.vals_r("ldl_red1_comp1_mean");
+            pos__ = 0;
+            ldl_red1_comp1_mean = vals_r__[pos__++];
+            current_statement_begin__ = 365;
+            context__.validate_dims("data initialization", "ldl_red1_comp1_se", "double", context__.to_vec());
+            ldl_red1_comp1_se = double(0);
+            vals_r__ = context__.vals_r("ldl_red1_comp1_se");
+            pos__ = 0;
+            ldl_red1_comp1_se = vals_r__[pos__++];
+            check_greater_or_equal(function__, "ldl_red1_comp1_se", ldl_red1_comp1_se, 0);
+            current_statement_begin__ = 366;
+            context__.validate_dims("data initialization", "hdl_red1_comp1_mean", "double", context__.to_vec());
+            hdl_red1_comp1_mean = double(0);
+            vals_r__ = context__.vals_r("hdl_red1_comp1_mean");
+            pos__ = 0;
+            hdl_red1_comp1_mean = vals_r__[pos__++];
+            current_statement_begin__ = 367;
+            context__.validate_dims("data initialization", "hdl_red1_comp1_se", "double", context__.to_vec());
+            hdl_red1_comp1_se = double(0);
+            vals_r__ = context__.vals_r("hdl_red1_comp1_se");
+            pos__ = 0;
+            hdl_red1_comp1_se = vals_r__[pos__++];
+            check_greater_or_equal(function__, "hdl_red1_comp1_se", hdl_red1_comp1_se, 0);
             // initialize transformed data variables
+            current_statement_begin__ = 381;
+            t_sbp_red1_comp1_mean = double(0);
+            stan::math::fill(t_sbp_red1_comp1_mean, DUMMY_VAR__);
+            current_statement_begin__ = 382;
+            t_sbp_red1_comp1_se = double(0);
+            stan::math::fill(t_sbp_red1_comp1_se, DUMMY_VAR__);
             // execute transformed data statements
+            current_statement_begin__ = 385;
+            stan::math::assign(t_sbp_red1_comp1_mean, (sbp_red1_comp1_mean / 10));
+            current_statement_begin__ = 386;
+            stan::math::assign(t_sbp_red1_comp1_se, (sbp_red1_comp1_se / 100));
             // validate transformed data
             // validate, set parameter ranges
             num_params_r__ = 0U;
             param_ranges_i__.clear();
-            current_statement_begin__ = 21;
-            num_params_r__ += 1;
-            current_statement_begin__ = 22;
-            num_params_r__ += 1;
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -116,32 +1924,6 @@ public:
         (void) pos__; // dummy call to supress warning
         std::vector<double> vals_r__;
         std::vector<int> vals_i__;
-        current_statement_begin__ = 21;
-        if (!(context__.contains_r("mu")))
-            stan::lang::rethrow_located(std::runtime_error(std::string("Variable mu missing")), current_statement_begin__, prog_reader__());
-        vals_r__ = context__.vals_r("mu");
-        pos__ = 0U;
-        context__.validate_dims("parameter initialization", "mu", "double", context__.to_vec());
-        double mu(0);
-        mu = vals_r__[pos__++];
-        try {
-            writer__.scalar_unconstrain(mu);
-        } catch (const std::exception& e) {
-            stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable mu: ") + e.what()), current_statement_begin__, prog_reader__());
-        }
-        current_statement_begin__ = 22;
-        if (!(context__.contains_r("sigma")))
-            stan::lang::rethrow_located(std::runtime_error(std::string("Variable sigma missing")), current_statement_begin__, prog_reader__());
-        vals_r__ = context__.vals_r("sigma");
-        pos__ = 0U;
-        context__.validate_dims("parameter initialization", "sigma", "double", context__.to_vec());
-        double sigma(0);
-        sigma = vals_r__[pos__++];
-        try {
-            writer__.scalar_lb_unconstrain(0, sigma);
-        } catch (const std::exception& e) {
-            stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable sigma: ") + e.what()), current_statement_begin__, prog_reader__());
-        }
         params_r__ = writer__.data_r();
         params_i__ = writer__.data_i();
     }
@@ -167,23 +1949,7 @@ public:
         try {
             stan::io::reader<local_scalar_t__> in__(params_r__, params_i__);
             // model parameters
-            current_statement_begin__ = 21;
-            local_scalar_t__ mu;
-            (void) mu;  // dummy to suppress unused var warning
-            if (jacobian__)
-                mu = in__.scalar_constrain(lp__);
-            else
-                mu = in__.scalar_constrain();
-            current_statement_begin__ = 22;
-            local_scalar_t__ sigma;
-            (void) sigma;  // dummy to suppress unused var warning
-            if (jacobian__)
-                sigma = in__.scalar_lb_constrain(0, lp__);
-            else
-                sigma = in__.scalar_lb_constrain(0);
             // model body
-            current_statement_begin__ = 29;
-            lp_accum__.add(normal_log<propto__>(y, mu, sigma));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -204,15 +1970,30 @@ public:
     }
     void get_param_names(std::vector<std::string>& names__) const {
         names__.resize(0);
-        names__.push_back("mu");
-        names__.push_back("sigma");
+        names__.push_back("mat_temp");
+        names__.push_back("order");
+        names__.push_back("theta");
+        names__.push_back("history");
+        names__.push_back("update");
     }
     void get_dims(std::vector<std::vector<size_t> >& dimss__) const {
         dimss__.resize(0);
         std::vector<size_t> dims__;
         dims__.resize(0);
+        dims__.push_back(time);
+        dims__.push_back(len_his);
         dimss__.push_back(dims__);
         dims__.resize(0);
+        dims__.push_back(complicaciones);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(complicaciones);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(len_his);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dims__.push_back(len_his);
         dimss__.push_back(dims__);
     }
     template <typename RNG>
@@ -229,10 +2010,6 @@ public:
         static const char* function__ = "model_diabetes_namespace::write_array";
         (void) function__;  // dummy to suppress unused var warning
         // read-transform, write parameters
-        double mu = in__.scalar_constrain();
-        vars__.push_back(mu);
-        double sigma = in__.scalar_lb_constrain(0);
-        vars__.push_back(sigma);
         double lp__ = 0.0;
         (void) lp__;  // dummy to suppress unused var warning
         stan::math::accumulator<double> lp_accum__;
@@ -242,6 +2019,1465 @@ public:
         try {
             if (!include_gqs__ && !include_tparams__) return;
             if (!include_gqs__) return;
+            // declare and define generated quantities
+            current_statement_begin__ = 394;
+            validate_non_negative_index("mat_temp", "time", time);
+            validate_non_negative_index("mat_temp", "len_his", len_his);
+            std::vector<std::vector<double> > mat_temp(time, std::vector<double>(len_his, double(0)));
+            stan::math::initialize(mat_temp, DUMMY_VAR__);
+            stan::math::fill(mat_temp, DUMMY_VAR__);
+            current_statement_begin__ = 395;
+            validate_non_negative_index("order", "complicaciones", complicaciones);
+            std::vector<int> order(complicaciones, int(0));
+            stan::math::fill(order, std::numeric_limits<int>::min());
+            stan::math::assign(order,static_cast<std::vector<int> >(stan::math::array_builder<int >().add(1).add(2).add(3).add(4).add(5).add(6).add(7).add(8).array()));
+            current_statement_begin__ = 396;
+            validate_non_negative_index("theta", "complicaciones", complicaciones);
+            Eigen::Matrix<double, Eigen::Dynamic, 1> theta(complicaciones);
+            stan::math::initialize(theta, DUMMY_VAR__);
+            stan::math::fill(theta, DUMMY_VAR__);
+            stan::math::assign(theta,transpose(stan::math::to_row_vector(stan::math::array_builder<double >().add(0.125).add(0.125).add(0.125).add(0.125).add(0.125).add(0.125).add(0.125).add(0.125).array())));
+            current_statement_begin__ = 397;
+            validate_non_negative_index("history", "len_his", len_his);
+            std::vector<double> history(len_his, double(0));
+            stan::math::initialize(history, DUMMY_VAR__);
+            stan::math::fill(history, DUMMY_VAR__);
+            current_statement_begin__ = 398;
+            validate_non_negative_index("update", "len_his", len_his);
+            std::vector<double> update(len_his, double(0));
+            stan::math::initialize(update, DUMMY_VAR__);
+            stan::math::fill(update, DUMMY_VAR__);
+            // generated quantities statements
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
+                        ag, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(2), stan::model::nil_index_list()), 
+                        age_dia, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(3), stan::model::nil_index_list()), 
+                        woma, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(4), stan::model::nil_index_list()), 
+                        eth, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(5), stan::model::nil_index_list()), 
+                        smok, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(6), stan::model::nil_index_list()), 
+                        sb, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(7), stan::model::nil_index_list()), 
+                        hba1, 
+                        "assigning variable history");
+            current_statement_begin__ = 399;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(8), stan::model::nil_index_list()), 
+                        ld, 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(9), stan::model::nil_index_list()), 
+                        hd, 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(10), stan::model::nil_index_list()), 
+                        weigh, 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(11), stan::model::nil_index_list()), 
+                        tall, 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(12), stan::model::nil_index_list()), 
+                        (ag - age_dia), 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(13), stan::model::nil_index_list()), 
+                        (weigh / pow(tall, 2)), 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(14), stan::model::nil_index_list()), 
+                        (sb / 10), 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(15), stan::model::nil_index_list()), 
+                        ulce, 
+                        "assigning variable history");
+            current_statement_begin__ = 400;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(16), stan::model::nil_index_list()), 
+                        mii, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(17), stan::model::nil_index_list()), 
+                        strok, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(18), stan::model::nil_index_list()), 
+                        ih, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(19), stan::model::nil_index_list()), 
+                        ch, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(20), stan::model::nil_index_list()), 
+                        blin, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(21), stan::model::nil_index_list()), 
+                        ampu, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(22), stan::model::nil_index_list()), 
+                        rena, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(23), stan::model::nil_index_list()), 
+                        1, 
+                        "assigning variable history");
+            current_statement_begin__ = 401;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(24), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(25), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(26), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(27), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(28), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(29), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(30), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 402;
+            stan::model::assign(history, 
+                        stan::model::cons_list(stan::model::index_uni(31), stan::model::nil_index_list()), 
+                        0, 
+                        "assigning variable history");
+            current_statement_begin__ = 403;
+            stan::math::assign(update, history);
+            current_statement_begin__ = 405;
+            for (int i = 1; i <= time; ++i) {
+                {
+                current_statement_begin__ = 406;
+                local_scalar_t__ primera(DUMMY_VAR__);
+                (void) primera;  // dummy to suppress unused var warning
+                stan::math::initialize(primera, DUMMY_VAR__);
+                stan::math::fill(primera, DUMMY_VAR__);
+                stan::math::assign(primera,0);
+                current_statement_begin__ = 407;
+                if (as_bool(logical_eq(get_base1(update, 23, "update", 1), 0))) {
+                    current_statement_begin__ = 407;
+                    break;
+                }
+                current_statement_begin__ = 408;
+                for (int j = 1; j <= complicaciones; ++j) {
+                    {
+                    current_statement_begin__ = 409;
+                    int temp(0);
+                    (void) temp;  // dummy to suppress unused var warning
+                    stan::math::fill(temp, std::numeric_limits<int>::min());
+                    current_statement_begin__ = 410;
+                    int k(0);
+                    (void) k;  // dummy to suppress unused var warning
+                    stan::math::fill(k, std::numeric_limits<int>::min());
+                    current_statement_begin__ = 411;
+                    stan::math::assign(k, categorical_rng(theta, base_rng__));
+                    current_statement_begin__ = 412;
+                    stan::math::assign(temp, get_base1(order, j, "order", 1));
+                    current_statement_begin__ = 413;
+                    stan::model::assign(order, 
+                                stan::model::cons_list(stan::model::index_uni(j), stan::model::nil_index_list()), 
+                                get_base1(order, k, "order", 1), 
+                                "assigning variable order");
+                    current_statement_begin__ = 414;
+                    stan::model::assign(order, 
+                                stan::model::cons_list(stan::model::index_uni(k), stan::model::nil_index_list()), 
+                                temp, 
+                                "assigning variable order");
+                    }
+                }
+                current_statement_begin__ = 416;
+                for (int s = 1; s <= complicaciones; ++s) {
+                    current_statement_begin__ = 418;
+                    if (as_bool(logical_eq(get_base1(order, s, "order", 1), 1))) {
+                        current_statement_begin__ = 419;
+                        if (as_bool(logical_neq(get_base1(update, 19, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 420;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 421;
+                            local_scalar_t__ ro(DUMMY_VAR__);
+                            (void) ro;  // dummy to suppress unused var warning
+                            stan::math::initialize(ro, DUMMY_VAR__);
+                            stan::math::fill(ro, DUMMY_VAR__);
+                            current_statement_begin__ = 422;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 423;
+                            local_scalar_t__ bmi(DUMMY_VAR__);
+                            (void) bmi;  // dummy to suppress unused var warning
+                            stan::math::initialize(bmi, DUMMY_VAR__);
+                            stan::math::fill(bmi, DUMMY_VAR__);
+                            current_statement_begin__ = 424;
+                            local_scalar_t__ ldl(DUMMY_VAR__);
+                            (void) ldl;  // dummy to suppress unused var warning
+                            stan::math::initialize(ldl, DUMMY_VAR__);
+                            stan::math::fill(ldl, DUMMY_VAR__);
+                            current_statement_begin__ = 425;
+                            local_scalar_t__ amp(DUMMY_VAR__);
+                            (void) amp;  // dummy to suppress unused var warning
+                            stan::math::initialize(amp, DUMMY_VAR__);
+                            stan::math::fill(amp, DUMMY_VAR__);
+                            current_statement_begin__ = 426;
+                            local_scalar_t__ ulcer(DUMMY_VAR__);
+                            (void) ulcer;  // dummy to suppress unused var warning
+                            stan::math::initialize(ulcer, DUMMY_VAR__);
+                            stan::math::fill(ulcer, DUMMY_VAR__);
+                            current_statement_begin__ = 427;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 428;
+                            stan::math::assign(intercept, normal_rng(-(12.332), 0.859, base_rng__));
+                            current_statement_begin__ = 429;
+                            stan::math::assign(ro, ro_rng(1.514, 0.096, base_rng__, pstream__));
+                            current_statement_begin__ = 430;
+                            stan::math::assign(age_diab, normal_rng(0.068, 0.008, base_rng__));
+                            current_statement_begin__ = 431;
+                            stan::math::assign(bmi, normal_rng(0.072, 0.008, base_rng__));
+                            current_statement_begin__ = 432;
+                            stan::math::assign(ldl, normal_rng(0.012, 0.005, base_rng__));
+                            current_statement_begin__ = 433;
+                            stan::math::assign(amp, normal_rng(0.658, 0.334, base_rng__));
+                            current_statement_begin__ = 434;
+                            stan::math::assign(ulcer, normal_rng(0.654, 0.291, base_rng__));
+                            current_statement_begin__ = 435;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 436;
+                            stan::math::assign(update, simCHF(update, intercept, ro, age_diab, bmi, ldl, amp, ulcer, rand, pstream__));
+                            }
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 2))) {
+                        current_statement_begin__ = 441;
+                        if (as_bool(logical_neq(get_base1(update, 18, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 442;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 443;
+                            local_scalar_t__ ro(DUMMY_VAR__);
+                            (void) ro;  // dummy to suppress unused var warning
+                            stan::math::initialize(ro, DUMMY_VAR__);
+                            stan::math::fill(ro, DUMMY_VAR__);
+                            current_statement_begin__ = 444;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 445;
+                            local_scalar_t__ chf(DUMMY_VAR__);
+                            (void) chf;  // dummy to suppress unused var warning
+                            stan::math::initialize(chf, DUMMY_VAR__);
+                            stan::math::fill(chf, DUMMY_VAR__);
+                            current_statement_begin__ = 446;
+                            local_scalar_t__ ldl(DUMMY_VAR__);
+                            (void) ldl;  // dummy to suppress unused var warning
+                            stan::math::initialize(ldl, DUMMY_VAR__);
+                            stan::math::fill(ldl, DUMMY_VAR__);
+                            current_statement_begin__ = 447;
+                            local_scalar_t__ amp(DUMMY_VAR__);
+                            (void) amp;  // dummy to suppress unused var warning
+                            stan::math::initialize(amp, DUMMY_VAR__);
+                            stan::math::fill(amp, DUMMY_VAR__);
+                            current_statement_begin__ = 448;
+                            local_scalar_t__ sbp(DUMMY_VAR__);
+                            (void) sbp;  // dummy to suppress unused var warning
+                            stan::math::initialize(sbp, DUMMY_VAR__);
+                            stan::math::fill(sbp, DUMMY_VAR__);
+                            current_statement_begin__ = 449;
+                            local_scalar_t__ hdl(DUMMY_VAR__);
+                            (void) hdl;  // dummy to suppress unused var warning
+                            stan::math::initialize(hdl, DUMMY_VAR__);
+                            stan::math::fill(hdl, DUMMY_VAR__);
+                            current_statement_begin__ = 450;
+                            local_scalar_t__ female(DUMMY_VAR__);
+                            (void) female;  // dummy to suppress unused var warning
+                            stan::math::initialize(female, DUMMY_VAR__);
+                            stan::math::fill(female, DUMMY_VAR__);
+                            current_statement_begin__ = 451;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 452;
+                            stan::math::assign(intercept, normal_rng(-(6.709), 0.503, base_rng__));
+                            current_statement_begin__ = 453;
+                            stan::math::assign(ro, ro_rng(1.276, 0.059, base_rng__, pstream__));
+                            current_statement_begin__ = 454;
+                            stan::math::assign(age_diab, normal_rng(0.016, 0.005, base_rng__));
+                            current_statement_begin__ = 455;
+                            stan::math::assign(ldl, normal_rng(0.023, 0.003, base_rng__));
+                            current_statement_begin__ = 456;
+                            stan::math::assign(amp, normal_rng(0.526, 0.266, base_rng__));
+                            current_statement_begin__ = 457;
+                            stan::math::assign(chf, normal_rng(0.824, 0.168, base_rng__));
+                            current_statement_begin__ = 458;
+                            stan::math::assign(sbp, normal_rng(0.058, 0.019, base_rng__));
+                            current_statement_begin__ = 459;
+                            stan::math::assign(hdl, normal_rng(-(0.065), 0.014, base_rng__));
+                            current_statement_begin__ = 460;
+                            stan::math::assign(female, normal_rng(-(0.532), 0.085, base_rng__));
+                            current_statement_begin__ = 461;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 462;
+                            stan::math::assign(update, simIHD(update, intercept, ro, age_diab, chf, ldl, amp, sbp, hdl, female, rand, pstream__));
+                            }
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 3))) {
+                        current_statement_begin__ = 467;
+                        if (as_bool(logical_eq(get_base1(update, 16, "update", 1), 0))) {
+                            current_statement_begin__ = 468;
+                            if (as_bool(logical_eq(get_base1(update, 3, "update", 1), 0))) {
+                                {
+                                current_statement_begin__ = 469;
+                                local_scalar_t__ intercept(DUMMY_VAR__);
+                                (void) intercept;  // dummy to suppress unused var warning
+                                stan::math::initialize(intercept, DUMMY_VAR__);
+                                stan::math::fill(intercept, DUMMY_VAR__);
+                                current_statement_begin__ = 470;
+                                local_scalar_t__ age_diab(DUMMY_VAR__);
+                                (void) age_diab;  // dummy to suppress unused var warning
+                                stan::math::initialize(age_diab, DUMMY_VAR__);
+                                stan::math::fill(age_diab, DUMMY_VAR__);
+                                current_statement_begin__ = 471;
+                                local_scalar_t__ chf(DUMMY_VAR__);
+                                (void) chf;  // dummy to suppress unused var warning
+                                stan::math::initialize(chf, DUMMY_VAR__);
+                                stan::math::fill(chf, DUMMY_VAR__);
+                                current_statement_begin__ = 472;
+                                local_scalar_t__ ldl(DUMMY_VAR__);
+                                (void) ldl;  // dummy to suppress unused var warning
+                                stan::math::initialize(ldl, DUMMY_VAR__);
+                                stan::math::fill(ldl, DUMMY_VAR__);
+                                current_statement_begin__ = 473;
+                                local_scalar_t__ amp(DUMMY_VAR__);
+                                (void) amp;  // dummy to suppress unused var warning
+                                stan::math::initialize(amp, DUMMY_VAR__);
+                                stan::math::fill(amp, DUMMY_VAR__);
+                                current_statement_begin__ = 474;
+                                local_scalar_t__ hba1c(DUMMY_VAR__);
+                                (void) hba1c;  // dummy to suppress unused var warning
+                                stan::math::initialize(hba1c, DUMMY_VAR__);
+                                stan::math::fill(hba1c, DUMMY_VAR__);
+                                current_statement_begin__ = 475;
+                                local_scalar_t__ sbp(DUMMY_VAR__);
+                                (void) sbp;  // dummy to suppress unused var warning
+                                stan::math::initialize(sbp, DUMMY_VAR__);
+                                stan::math::fill(sbp, DUMMY_VAR__);
+                                current_statement_begin__ = 476;
+                                local_scalar_t__ ihd(DUMMY_VAR__);
+                                (void) ihd;  // dummy to suppress unused var warning
+                                stan::math::initialize(ihd, DUMMY_VAR__);
+                                stan::math::fill(ihd, DUMMY_VAR__);
+                                current_statement_begin__ = 477;
+                                local_scalar_t__ hdl(DUMMY_VAR__);
+                                (void) hdl;  // dummy to suppress unused var warning
+                                stan::math::initialize(hdl, DUMMY_VAR__);
+                                stan::math::fill(hdl, DUMMY_VAR__);
+                                current_statement_begin__ = 478;
+                                local_scalar_t__ smoker(DUMMY_VAR__);
+                                (void) smoker;  // dummy to suppress unused var warning
+                                stan::math::initialize(smoker, DUMMY_VAR__);
+                                stan::math::fill(smoker, DUMMY_VAR__);
+                                current_statement_begin__ = 479;
+                                local_scalar_t__ stroke(DUMMY_VAR__);
+                                (void) stroke;  // dummy to suppress unused var warning
+                                stan::math::initialize(stroke, DUMMY_VAR__);
+                                stan::math::fill(stroke, DUMMY_VAR__);
+                                current_statement_begin__ = 480;
+                                local_scalar_t__ rand(DUMMY_VAR__);
+                                (void) rand;  // dummy to suppress unused var warning
+                                stan::math::initialize(rand, DUMMY_VAR__);
+                                stan::math::fill(rand, DUMMY_VAR__);
+                                current_statement_begin__ = 481;
+                                stan::math::assign(intercept, normal_rng(-(8.791), 0.486, base_rng__));
+                                current_statement_begin__ = 482;
+                                stan::math::assign(hba1c, normal_rng(0.108, 0.023, base_rng__));
+                                current_statement_begin__ = 483;
+                                stan::math::assign(age_diab, normal_rng(0.045, 0.006, base_rng__));
+                                current_statement_begin__ = 484;
+                                stan::math::assign(ldl, normal_rng(0.023, 0.004, base_rng__));
+                                current_statement_begin__ = 485;
+                                stan::math::assign(amp, normal_rng(0.743, 0.241, base_rng__));
+                                current_statement_begin__ = 486;
+                                stan::math::assign(chf, normal_rng(0.814, 0.195, base_rng__));
+                                current_statement_begin__ = 487;
+                                stan::math::assign(sbp, normal_rng(0.046, 0.022, base_rng__));
+                                current_statement_begin__ = 488;
+                                stan::math::assign(hdl, normal_rng(-(0.049), 0.016, base_rng__));
+                                current_statement_begin__ = 489;
+                                stan::math::assign(ihd, normal_rng(0.846, 0.117, base_rng__));
+                                current_statement_begin__ = 490;
+                                stan::math::assign(smoker, normal_rng(0.277, 0.091, base_rng__));
+                                current_statement_begin__ = 491;
+                                stan::math::assign(stroke, normal_rng(0.448, 0.173, base_rng__));
+                                current_statement_begin__ = 492;
+                                stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                                current_statement_begin__ = 493;
+                                stan::math::assign(update, simMIm(update, intercept, hba1c, age_diab, ldl, amp, chf, sbp, hdl, smoker, ihd, stroke, rand, pstream__));
+                                }
+                            } else {
+                                {
+                                current_statement_begin__ = 497;
+                                local_scalar_t__ intercept(DUMMY_VAR__);
+                                (void) intercept;  // dummy to suppress unused var warning
+                                stan::math::initialize(intercept, DUMMY_VAR__);
+                                stan::math::fill(intercept, DUMMY_VAR__);
+                                current_statement_begin__ = 498;
+                                local_scalar_t__ age_diab(DUMMY_VAR__);
+                                (void) age_diab;  // dummy to suppress unused var warning
+                                stan::math::initialize(age_diab, DUMMY_VAR__);
+                                stan::math::fill(age_diab, DUMMY_VAR__);
+                                current_statement_begin__ = 499;
+                                local_scalar_t__ chf(DUMMY_VAR__);
+                                (void) chf;  // dummy to suppress unused var warning
+                                stan::math::initialize(chf, DUMMY_VAR__);
+                                stan::math::fill(chf, DUMMY_VAR__);
+                                current_statement_begin__ = 500;
+                                local_scalar_t__ ldl(DUMMY_VAR__);
+                                (void) ldl;  // dummy to suppress unused var warning
+                                stan::math::initialize(ldl, DUMMY_VAR__);
+                                stan::math::fill(ldl, DUMMY_VAR__);
+                                current_statement_begin__ = 501;
+                                local_scalar_t__ hba1c(DUMMY_VAR__);
+                                (void) hba1c;  // dummy to suppress unused var warning
+                                stan::math::initialize(hba1c, DUMMY_VAR__);
+                                stan::math::fill(hba1c, DUMMY_VAR__);
+                                current_statement_begin__ = 502;
+                                local_scalar_t__ sbp(DUMMY_VAR__);
+                                (void) sbp;  // dummy to suppress unused var warning
+                                stan::math::initialize(sbp, DUMMY_VAR__);
+                                stan::math::fill(sbp, DUMMY_VAR__);
+                                current_statement_begin__ = 503;
+                                local_scalar_t__ ihd(DUMMY_VAR__);
+                                (void) ihd;  // dummy to suppress unused var warning
+                                stan::math::initialize(ihd, DUMMY_VAR__);
+                                stan::math::fill(ihd, DUMMY_VAR__);
+                                current_statement_begin__ = 504;
+                                local_scalar_t__ smoker(DUMMY_VAR__);
+                                (void) smoker;  // dummy to suppress unused var warning
+                                stan::math::initialize(smoker, DUMMY_VAR__);
+                                stan::math::fill(smoker, DUMMY_VAR__);
+                                current_statement_begin__ = 505;
+                                local_scalar_t__ ro(DUMMY_VAR__);
+                                (void) ro;  // dummy to suppress unused var warning
+                                stan::math::initialize(ro, DUMMY_VAR__);
+                                stan::math::fill(ro, DUMMY_VAR__);
+                                current_statement_begin__ = 506;
+                                local_scalar_t__ rand(DUMMY_VAR__);
+                                (void) rand;  // dummy to suppress unused var warning
+                                stan::math::initialize(rand, DUMMY_VAR__);
+                                stan::math::fill(rand, DUMMY_VAR__);
+                                current_statement_begin__ = 507;
+                                stan::math::assign(intercept, normal_rng(-(8.708), 0.844, base_rng__));
+                                current_statement_begin__ = 508;
+                                stan::math::assign(ro, ro_rng(1.376, 0.097, base_rng__, pstream__));
+                                current_statement_begin__ = 509;
+                                stan::math::assign(hba1c, normal_rng(0.078, 0.030, base_rng__));
+                                current_statement_begin__ = 510;
+                                stan::math::assign(age_diab, normal_rng(0.041, 0.008, base_rng__));
+                                current_statement_begin__ = 511;
+                                stan::math::assign(ldl, normal_rng(0.035, 0.007, base_rng__));
+                                current_statement_begin__ = 512;
+                                stan::math::assign(chf, normal_rng(0.853, 0.200, base_rng__));
+                                current_statement_begin__ = 513;
+                                stan::math::assign(sbp, normal_rng(0.056, 0.027, base_rng__));
+                                current_statement_begin__ = 514;
+                                stan::math::assign(ihd, normal_rng(0.876, 0.163, base_rng__));
+                                current_statement_begin__ = 515;
+                                stan::math::assign(smoker, normal_rng(0.344, 0.138, base_rng__));
+                                current_statement_begin__ = 516;
+                                stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                                current_statement_begin__ = 517;
+                                stan::math::assign(update, simMIf(update, intercept, ro, hba1c, age_diab, ldl, chf, sbp, smoker, ihd, rand, pstream__));
+                                }
+                            }
+                        } else if (as_bool(logical_eq(get_base1(update, 16, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 522;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 523;
+                            local_scalar_t__ ldl(DUMMY_VAR__);
+                            (void) ldl;  // dummy to suppress unused var warning
+                            stan::math::initialize(ldl, DUMMY_VAR__);
+                            stan::math::fill(ldl, DUMMY_VAR__);
+                            current_statement_begin__ = 524;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 525;
+                            stan::math::assign(intercept, normal_rng(-(4.179), 0.262, base_rng__));
+                            current_statement_begin__ = 526;
+                            stan::math::assign(ldl, normal_rng(0.021, 0.007, base_rng__));
+                            current_statement_begin__ = 527;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 528;
+                            stan::math::assign(update, simMI2(update, intercept, ldl, rand, pstream__));
+                            }
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 4))) {
+                        current_statement_begin__ = 532;
+                        if (as_bool(logical_eq(get_base1(update, 17, "update", 1), 0))) {
+                            {
+                            current_statement_begin__ = 533;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 534;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 535;
+                            local_scalar_t__ ldl(DUMMY_VAR__);
+                            (void) ldl;  // dummy to suppress unused var warning
+                            stan::math::initialize(ldl, DUMMY_VAR__);
+                            stan::math::fill(ldl, DUMMY_VAR__);
+                            current_statement_begin__ = 536;
+                            local_scalar_t__ hba1c(DUMMY_VAR__);
+                            (void) hba1c;  // dummy to suppress unused var warning
+                            stan::math::initialize(hba1c, DUMMY_VAR__);
+                            stan::math::fill(hba1c, DUMMY_VAR__);
+                            current_statement_begin__ = 537;
+                            local_scalar_t__ sbp(DUMMY_VAR__);
+                            (void) sbp;  // dummy to suppress unused var warning
+                            stan::math::initialize(sbp, DUMMY_VAR__);
+                            stan::math::fill(sbp, DUMMY_VAR__);
+                            current_statement_begin__ = 538;
+                            local_scalar_t__ ihd(DUMMY_VAR__);
+                            (void) ihd;  // dummy to suppress unused var warning
+                            stan::math::initialize(ihd, DUMMY_VAR__);
+                            stan::math::fill(ihd, DUMMY_VAR__);
+                            current_statement_begin__ = 539;
+                            local_scalar_t__ smoker(DUMMY_VAR__);
+                            (void) smoker;  // dummy to suppress unused var warning
+                            stan::math::initialize(smoker, DUMMY_VAR__);
+                            stan::math::fill(smoker, DUMMY_VAR__);
+                            current_statement_begin__ = 540;
+                            local_scalar_t__ ro(DUMMY_VAR__);
+                            (void) ro;  // dummy to suppress unused var warning
+                            stan::math::initialize(ro, DUMMY_VAR__);
+                            stan::math::fill(ro, DUMMY_VAR__);
+                            current_statement_begin__ = 541;
+                            local_scalar_t__ female(DUMMY_VAR__);
+                            (void) female;  // dummy to suppress unused var warning
+                            stan::math::initialize(female, DUMMY_VAR__);
+                            stan::math::fill(female, DUMMY_VAR__);
+                            current_statement_begin__ = 542;
+                            local_scalar_t__ amp(DUMMY_VAR__);
+                            (void) amp;  // dummy to suppress unused var warning
+                            stan::math::initialize(amp, DUMMY_VAR__);
+                            stan::math::fill(amp, DUMMY_VAR__);
+                            current_statement_begin__ = 543;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 544;
+                            stan::math::assign(intercept, normal_rng(-(13.053), 0.722, base_rng__));
+                            current_statement_begin__ = 545;
+                            stan::math::assign(ro, ro_rng(1.466, 0.081, base_rng__, pstream__));
+                            current_statement_begin__ = 546;
+                            stan::math::assign(hba1c, normal_rng(0.092, 0.026, base_rng__));
+                            current_statement_begin__ = 547;
+                            stan::math::assign(age_diab, normal_rng(0.066, 0.007, base_rng__));
+                            current_statement_begin__ = 548;
+                            stan::math::assign(female, normal_rng(-(0.420), 0.098, base_rng__));
+                            current_statement_begin__ = 549;
+                            stan::math::assign(ldl, normal_rng(0.016, 0.004, base_rng__));
+                            current_statement_begin__ = 550;
+                            stan::math::assign(sbp, normal_rng(0.170, 0.022, base_rng__));
+                            current_statement_begin__ = 551;
+                            stan::math::assign(ihd, normal_rng(0.876, 0.163, base_rng__));
+                            current_statement_begin__ = 552;
+                            stan::math::assign(smoker, normal_rng(0.331, 0.111, base_rng__));
+                            current_statement_begin__ = 553;
+                            stan::math::assign(amp, normal_rng(1.090, 0.240, base_rng__));
+                            current_statement_begin__ = 554;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 555;
+                            stan::math::assign(update, simStroke(update, intercept, ro, hba1c, age_diab, ldl, sbp, smoker, ihd, female, amp, rand, pstream__));
+                            }
+                        } else if (as_bool(logical_eq(get_base1(update, 17, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 559;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 560;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 561;
+                            local_scalar_t__ smoker(DUMMY_VAR__);
+                            (void) smoker;  // dummy to suppress unused var warning
+                            stan::math::initialize(smoker, DUMMY_VAR__);
+                            stan::math::fill(smoker, DUMMY_VAR__);
+                            current_statement_begin__ = 562;
+                            local_scalar_t__ ro(DUMMY_VAR__);
+                            (void) ro;  // dummy to suppress unused var warning
+                            stan::math::initialize(ro, DUMMY_VAR__);
+                            stan::math::fill(ro, DUMMY_VAR__);
+                            current_statement_begin__ = 563;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 564;
+                            stan::math::assign(intercept, normal_rng(-(9.431), 1.569, base_rng__));
+                            current_statement_begin__ = 565;
+                            stan::math::assign(ro, ro_rng(1.956, 0.291, base_rng__, pstream__));
+                            current_statement_begin__ = 566;
+                            stan::math::assign(age_diab, normal_rng(0.046, 0.018, base_rng__));
+                            current_statement_begin__ = 567;
+                            stan::math::assign(smoker, normal_rng(0.656, 0.263, base_rng__));
+                            current_statement_begin__ = 568;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 569;
+                            stan::math::assign(update, simStroke2(update, intercept, ro, age_diab, smoker, rand, pstream__));
+                            }
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 5))) {
+                        current_statement_begin__ = 573;
+                        if (as_bool(logical_neq(get_base1(update, 20, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 574;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 575;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 576;
+                            local_scalar_t__ hba1c(DUMMY_VAR__);
+                            (void) hba1c;  // dummy to suppress unused var warning
+                            stan::math::initialize(hba1c, DUMMY_VAR__);
+                            stan::math::fill(hba1c, DUMMY_VAR__);
+                            current_statement_begin__ = 577;
+                            local_scalar_t__ sbp(DUMMY_VAR__);
+                            (void) sbp;  // dummy to suppress unused var warning
+                            stan::math::initialize(sbp, DUMMY_VAR__);
+                            stan::math::fill(sbp, DUMMY_VAR__);
+                            current_statement_begin__ = 578;
+                            local_scalar_t__ ihd(DUMMY_VAR__);
+                            (void) ihd;  // dummy to suppress unused var warning
+                            stan::math::initialize(ihd, DUMMY_VAR__);
+                            stan::math::fill(ihd, DUMMY_VAR__);
+                            current_statement_begin__ = 579;
+                            local_scalar_t__ chf(DUMMY_VAR__);
+                            (void) chf;  // dummy to suppress unused var warning
+                            stan::math::initialize(chf, DUMMY_VAR__);
+                            stan::math::fill(chf, DUMMY_VAR__);
+                            current_statement_begin__ = 580;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 581;
+                            stan::math::assign(intercept, normal_rng(-(11.607), 0.759, base_rng__));
+                            current_statement_begin__ = 582;
+                            stan::math::assign(hba1c, normal_rng(0.171, 0.032, base_rng__));
+                            current_statement_begin__ = 583;
+                            stan::math::assign(age_diab, normal_rng(0.047, 0.009, base_rng__));
+                            current_statement_begin__ = 584;
+                            stan::math::assign(sbp, normal_rng(0.068, 0.032, base_rng__));
+                            current_statement_begin__ = 585;
+                            stan::math::assign(ihd, normal_rng(0.610, 0.208, base_rng__));
+                            current_statement_begin__ = 586;
+                            stan::math::assign(chf, normal_rng(0.841, 0.287, base_rng__));
+                            current_statement_begin__ = 587;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 588;
+                            stan::math::assign(update, simBlind(update, intercept, age_diab, hba1c, sbp, chf, ihd, rand, pstream__));
+                            }
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 6))) {
+                        {
+                        current_statement_begin__ = 593;
+                        local_scalar_t__ intercept(DUMMY_VAR__);
+                        (void) intercept;  // dummy to suppress unused var warning
+                        stan::math::initialize(intercept, DUMMY_VAR__);
+                        stan::math::fill(intercept, DUMMY_VAR__);
+                        current_statement_begin__ = 594;
+                        local_scalar_t__ age_diab(DUMMY_VAR__);
+                        (void) age_diab;  // dummy to suppress unused var warning
+                        stan::math::initialize(age_diab, DUMMY_VAR__);
+                        stan::math::fill(age_diab, DUMMY_VAR__);
+                        current_statement_begin__ = 595;
+                        local_scalar_t__ female(DUMMY_VAR__);
+                        (void) female;  // dummy to suppress unused var warning
+                        stan::math::initialize(female, DUMMY_VAR__);
+                        stan::math::fill(female, DUMMY_VAR__);
+                        current_statement_begin__ = 596;
+                        local_scalar_t__ bmi(DUMMY_VAR__);
+                        (void) bmi;  // dummy to suppress unused var warning
+                        stan::math::initialize(bmi, DUMMY_VAR__);
+                        stan::math::fill(bmi, DUMMY_VAR__);
+                        current_statement_begin__ = 597;
+                        local_scalar_t__ hba1c(DUMMY_VAR__);
+                        (void) hba1c;  // dummy to suppress unused var warning
+                        stan::math::initialize(hba1c, DUMMY_VAR__);
+                        stan::math::fill(hba1c, DUMMY_VAR__);
+                        current_statement_begin__ = 598;
+                        local_scalar_t__ rand(DUMMY_VAR__);
+                        (void) rand;  // dummy to suppress unused var warning
+                        stan::math::initialize(rand, DUMMY_VAR__);
+                        stan::math::fill(rand, DUMMY_VAR__);
+                        current_statement_begin__ = 599;
+                        stan::math::assign(intercept, normal_rng(-(4.179), 0.262, base_rng__));
+                        current_statement_begin__ = 600;
+                        stan::math::assign(age_diab, normal_rng(0.021, 0.007, base_rng__));
+                        current_statement_begin__ = 601;
+                        stan::math::assign(female, normal_rng(0.021, 0.007, base_rng__));
+                        current_statement_begin__ = 602;
+                        stan::math::assign(bmi, normal_rng(0.021, 0.007, base_rng__));
+                        current_statement_begin__ = 603;
+                        stan::math::assign(hba1c, normal_rng(0.021, 0.007, base_rng__));
+                        current_statement_begin__ = 604;
+                        stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                        current_statement_begin__ = 605;
+                        stan::math::assign(update, simUlcer(update, intercept, age_diab, female, bmi, hba1c, rand, pstream__));
+                        }
+                    } else if (as_bool(logical_eq(get_base1(order, s, "order", 1), 7))) {
+                        current_statement_begin__ = 608;
+                        if (as_bool(logical_eq(get_base1(update, 21, "update", 1), 0))) {
+                            current_statement_begin__ = 609;
+                            if (as_bool(logical_eq(get_base1(update, 15, "update", 1), 0))) {
+                                {
+                                current_statement_begin__ = 610;
+                                local_scalar_t__ intercept(DUMMY_VAR__);
+                                (void) intercept;  // dummy to suppress unused var warning
+                                stan::math::initialize(intercept, DUMMY_VAR__);
+                                stan::math::fill(intercept, DUMMY_VAR__);
+                                current_statement_begin__ = 611;
+                                local_scalar_t__ age_diab(DUMMY_VAR__);
+                                (void) age_diab;  // dummy to suppress unused var warning
+                                stan::math::initialize(age_diab, DUMMY_VAR__);
+                                stan::math::fill(age_diab, DUMMY_VAR__);
+                                current_statement_begin__ = 612;
+                                local_scalar_t__ hdl(DUMMY_VAR__);
+                                (void) hdl;  // dummy to suppress unused var warning
+                                stan::math::initialize(hdl, DUMMY_VAR__);
+                                stan::math::fill(hdl, DUMMY_VAR__);
+                                current_statement_begin__ = 613;
+                                local_scalar_t__ hba1c(DUMMY_VAR__);
+                                (void) hba1c;  // dummy to suppress unused var warning
+                                stan::math::initialize(hba1c, DUMMY_VAR__);
+                                stan::math::fill(hba1c, DUMMY_VAR__);
+                                current_statement_begin__ = 614;
+                                local_scalar_t__ sbp(DUMMY_VAR__);
+                                (void) sbp;  // dummy to suppress unused var warning
+                                stan::math::initialize(sbp, DUMMY_VAR__);
+                                stan::math::fill(sbp, DUMMY_VAR__);
+                                current_statement_begin__ = 615;
+                                local_scalar_t__ stroke(DUMMY_VAR__);
+                                (void) stroke;  // dummy to suppress unused var warning
+                                stan::math::initialize(stroke, DUMMY_VAR__);
+                                stan::math::fill(stroke, DUMMY_VAR__);
+                                current_statement_begin__ = 616;
+                                local_scalar_t__ ro(DUMMY_VAR__);
+                                (void) ro;  // dummy to suppress unused var warning
+                                stan::math::initialize(ro, DUMMY_VAR__);
+                                stan::math::fill(ro, DUMMY_VAR__);
+                                current_statement_begin__ = 617;
+                                local_scalar_t__ female(DUMMY_VAR__);
+                                (void) female;  // dummy to suppress unused var warning
+                                stan::math::initialize(female, DUMMY_VAR__);
+                                stan::math::fill(female, DUMMY_VAR__);
+                                current_statement_begin__ = 618;
+                                local_scalar_t__ rand(DUMMY_VAR__);
+                                (void) rand;  // dummy to suppress unused var warning
+                                stan::math::initialize(rand, DUMMY_VAR__);
+                                stan::math::fill(rand, DUMMY_VAR__);
+                                current_statement_begin__ = 619;
+                                stan::math::assign(intercept, normal_rng(-(14.844), 1.205, base_rng__));
+                                current_statement_begin__ = 620;
+                                stan::math::assign(ro, ro_rng(2.067, 0.193, base_rng__, pstream__));
+                                current_statement_begin__ = 621;
+                                stan::math::assign(hba1c, normal_rng(0.248, 0.042, base_rng__));
+                                current_statement_begin__ = 622;
+                                stan::math::assign(age_diab, normal_rng(0.023, 0.011, base_rng__));
+                                current_statement_begin__ = 623;
+                                stan::math::assign(female, normal_rng(-(0.445), 0.189, base_rng__));
+                                current_statement_begin__ = 624;
+                                stan::math::assign(hdl, normal_rng(-(0.059), 0.032, base_rng__));
+                                current_statement_begin__ = 625;
+                                stan::math::assign(sbp, normal_rng(0.086, 0.043, base_rng__));
+                                current_statement_begin__ = 626;
+                                stan::math::assign(stroke, normal_rng(1.299, 0.245, base_rng__));
+                                current_statement_begin__ = 627;
+                                stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                                current_statement_begin__ = 628;
+                                stan::math::assign(update, simAmp_noUlcer(update, intercept, ro, hba1c, age_diab, hdl, sbp, stroke, female, rand, pstream__));
+                                }
+                            } else {
+                                {
+                                current_statement_begin__ = 632;
+                                local_scalar_t__ intercept(DUMMY_VAR__);
+                                (void) intercept;  // dummy to suppress unused var warning
+                                stan::math::initialize(intercept, DUMMY_VAR__);
+                                stan::math::fill(intercept, DUMMY_VAR__);
+                                current_statement_begin__ = 633;
+                                local_scalar_t__ age_diab(DUMMY_VAR__);
+                                (void) age_diab;  // dummy to suppress unused var warning
+                                stan::math::initialize(age_diab, DUMMY_VAR__);
+                                stan::math::fill(age_diab, DUMMY_VAR__);
+                                current_statement_begin__ = 634;
+                                local_scalar_t__ rand(DUMMY_VAR__);
+                                (void) rand;  // dummy to suppress unused var warning
+                                stan::math::initialize(rand, DUMMY_VAR__);
+                                stan::math::fill(rand, DUMMY_VAR__);
+                                current_statement_begin__ = 635;
+                                stan::math::assign(intercept, normal_rng(-(0.881), 1.390, base_rng__));
+                                current_statement_begin__ = 636;
+                                stan::math::assign(age_diab, normal_rng(-(0.065), 0.027, base_rng__));
+                                current_statement_begin__ = 637;
+                                stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                                current_statement_begin__ = 638;
+                                stan::math::assign(update, simAmp_Ulcer(update, intercept, age_diab, rand, pstream__));
+                                }
+                            }
+                        } else if (as_bool(logical_eq(get_base1(update, 15, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 642;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 643;
+                            local_scalar_t__ hb1ac(DUMMY_VAR__);
+                            (void) hb1ac;  // dummy to suppress unused var warning
+                            stan::math::initialize(hb1ac, DUMMY_VAR__);
+                            stan::math::fill(hb1ac, DUMMY_VAR__);
+                            current_statement_begin__ = 644;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 645;
+                            stan::math::assign(intercept, normal_rng(-(3.455), 0.565, base_rng__));
+                            current_statement_begin__ = 646;
+                            stan::math::assign(hb1ac, normal_rng(0.127, 0.060, base_rng__));
+                            current_statement_begin__ = 647;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 648;
+                            stan::math::assign(update, simAmp2(update, intercept, hb1ac, rand, pstream__));
+                            }
+                        }
+                    } else {
+                        current_statement_begin__ = 652;
+                        if (as_bool(logical_neq(get_base1(update, 22, "update", 1), 1))) {
+                            {
+                            current_statement_begin__ = 653;
+                            local_scalar_t__ intercept(DUMMY_VAR__);
+                            (void) intercept;  // dummy to suppress unused var warning
+                            stan::math::initialize(intercept, DUMMY_VAR__);
+                            stan::math::fill(intercept, DUMMY_VAR__);
+                            current_statement_begin__ = 654;
+                            local_scalar_t__ age_diab(DUMMY_VAR__);
+                            (void) age_diab;  // dummy to suppress unused var warning
+                            stan::math::initialize(age_diab, DUMMY_VAR__);
+                            stan::math::fill(age_diab, DUMMY_VAR__);
+                            current_statement_begin__ = 655;
+                            local_scalar_t__ female(DUMMY_VAR__);
+                            (void) female;  // dummy to suppress unused var warning
+                            stan::math::initialize(female, DUMMY_VAR__);
+                            stan::math::fill(female, DUMMY_VAR__);
+                            current_statement_begin__ = 656;
+                            local_scalar_t__ bmi(DUMMY_VAR__);
+                            (void) bmi;  // dummy to suppress unused var warning
+                            stan::math::initialize(bmi, DUMMY_VAR__);
+                            stan::math::fill(bmi, DUMMY_VAR__);
+                            current_statement_begin__ = 657;
+                            local_scalar_t__ ldl(DUMMY_VAR__);
+                            (void) ldl;  // dummy to suppress unused var warning
+                            stan::math::initialize(ldl, DUMMY_VAR__);
+                            stan::math::fill(ldl, DUMMY_VAR__);
+                            current_statement_begin__ = 658;
+                            local_scalar_t__ sbp(DUMMY_VAR__);
+                            (void) sbp;  // dummy to suppress unused var warning
+                            stan::math::initialize(sbp, DUMMY_VAR__);
+                            stan::math::fill(sbp, DUMMY_VAR__);
+                            current_statement_begin__ = 659;
+                            local_scalar_t__ amp(DUMMY_VAR__);
+                            (void) amp;  // dummy to suppress unused var warning
+                            stan::math::initialize(amp, DUMMY_VAR__);
+                            stan::math::fill(amp, DUMMY_VAR__);
+                            current_statement_begin__ = 660;
+                            local_scalar_t__ blind(DUMMY_VAR__);
+                            (void) blind;  // dummy to suppress unused var warning
+                            stan::math::initialize(blind, DUMMY_VAR__);
+                            stan::math::fill(blind, DUMMY_VAR__);
+                            current_statement_begin__ = 661;
+                            local_scalar_t__ rand(DUMMY_VAR__);
+                            (void) rand;  // dummy to suppress unused var warning
+                            stan::math::initialize(rand, DUMMY_VAR__);
+                            stan::math::fill(rand, DUMMY_VAR__);
+                            current_statement_begin__ = 662;
+                            stan::math::assign(intercept, normal_rng(3.549, 1.480, base_rng__));
+                            current_statement_begin__ = 663;
+                            stan::math::assign(age_diab, normal_rng(-(0.029), 0.013, base_rng__));
+                            current_statement_begin__ = 664;
+                            stan::math::assign(female, normal_rng(-(0.869), 0.224, base_rng__));
+                            current_statement_begin__ = 665;
+                            stan::math::assign(bmi, normal_rng(-(0.054), 0.020, base_rng__));
+                            current_statement_begin__ = 666;
+                            stan::math::assign(ldl, normal_rng(0.027, 0.007, base_rng__));
+                            current_statement_begin__ = 667;
+                            stan::math::assign(sbp, normal_rng(0.085, 0.047, base_rng__));
+                            current_statement_begin__ = 668;
+                            stan::math::assign(amp, normal_rng(1.108, 0.337, base_rng__));
+                            current_statement_begin__ = 669;
+                            stan::math::assign(blind, normal_rng(0.732, 0.290, base_rng__));
+                            current_statement_begin__ = 670;
+                            stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                            current_statement_begin__ = 671;
+                            stan::math::assign(update, simRenal(update, intercept, age_diab, female, bmi, ldl, sbp, amp, blind, rand, pstream__));
+                            }
+                        }
+                    }
+                }
+                current_statement_begin__ = 676;
+                if (as_bool(logical_gte(sum(stan::model::rvalue(update, stan::model::cons_list(stan::model::index_min_max(24, 31), stan::model::nil_index_list()), "update")), 1))) {
+                    current_statement_begin__ = 677;
+                    stan::math::assign(primera, (primera + 1));
+                }
+                current_statement_begin__ = 678;
+                if (as_bool((primitive_value(logical_eq(sum(stan::model::rvalue(update, stan::model::cons_list(stan::model::index_min_max(15, 22), stan::model::nil_index_list()), "update")), 0)) && primitive_value(logical_eq(sum(stan::model::rvalue(update, stan::model::cons_list(stan::model::index_min_max(24, 31), stan::model::nil_index_list()), "update")), 0))))) {
+                    {
+                    current_statement_begin__ = 679;
+                    local_scalar_t__ intercept(DUMMY_VAR__);
+                    (void) intercept;  // dummy to suppress unused var warning
+                    stan::math::initialize(intercept, DUMMY_VAR__);
+                    stan::math::fill(intercept, DUMMY_VAR__);
+                    current_statement_begin__ = 680;
+                    local_scalar_t__ phi(DUMMY_VAR__);
+                    (void) phi;  // dummy to suppress unused var warning
+                    stan::math::initialize(phi, DUMMY_VAR__);
+                    stan::math::fill(phi, DUMMY_VAR__);
+                    current_statement_begin__ = 681;
+                    local_scalar_t__ female(DUMMY_VAR__);
+                    (void) female;  // dummy to suppress unused var warning
+                    stan::math::initialize(female, DUMMY_VAR__);
+                    stan::math::fill(female, DUMMY_VAR__);
+                    current_statement_begin__ = 682;
+                    local_scalar_t__ smoker(DUMMY_VAR__);
+                    (void) smoker;  // dummy to suppress unused var warning
+                    stan::math::initialize(smoker, DUMMY_VAR__);
+                    stan::math::fill(smoker, DUMMY_VAR__);
+                    current_statement_begin__ = 683;
+                    local_scalar_t__ rand(DUMMY_VAR__);
+                    (void) rand;  // dummy to suppress unused var warning
+                    stan::math::initialize(rand, DUMMY_VAR__);
+                    stan::math::fill(rand, DUMMY_VAR__);
+                    current_statement_begin__ = 684;
+                    stan::math::assign(intercept, normal_rng(-(10.908), 0.304, base_rng__));
+                    current_statement_begin__ = 685;
+                    stan::math::assign(phi, ro_rng(0.098, 0.004, base_rng__, pstream__));
+                    current_statement_begin__ = 686;
+                    stan::math::assign(female, normal_rng(-(0.229), 0.077, base_rng__));
+                    current_statement_begin__ = 687;
+                    stan::math::assign(smoker, normal_rng(0.379, 0.089, base_rng__));
+                    current_statement_begin__ = 688;
+                    stan::math::assign(update, simDeath_nohist(update, intercept, phi, female, smoker, rand, pstream__));
+                    }
+                } else if (as_bool(logical_eq(primera, 1))) {
+                    {
+                    current_statement_begin__ = 691;
+                    local_scalar_t__ intercept(DUMMY_VAR__);
+                    (void) intercept;  // dummy to suppress unused var warning
+                    stan::math::initialize(intercept, DUMMY_VAR__);
+                    stan::math::fill(intercept, DUMMY_VAR__);
+                    current_statement_begin__ = 692;
+                    local_scalar_t__ year(DUMMY_VAR__);
+                    (void) year;  // dummy to suppress unused var warning
+                    stan::math::initialize(year, DUMMY_VAR__);
+                    stan::math::fill(year, DUMMY_VAR__);
+                    current_statement_begin__ = 693;
+                    local_scalar_t__ age(DUMMY_VAR__);
+                    (void) age;  // dummy to suppress unused var warning
+                    stan::math::initialize(age, DUMMY_VAR__);
+                    stan::math::fill(age, DUMMY_VAR__);
+                    current_statement_begin__ = 694;
+                    local_scalar_t__ smoker(DUMMY_VAR__);
+                    (void) smoker;  // dummy to suppress unused var warning
+                    stan::math::initialize(smoker, DUMMY_VAR__);
+                    stan::math::fill(smoker, DUMMY_VAR__);
+                    current_statement_begin__ = 695;
+                    local_scalar_t__ amp_event(DUMMY_VAR__);
+                    (void) amp_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(amp_event, DUMMY_VAR__);
+                    stan::math::fill(amp_event, DUMMY_VAR__);
+                    current_statement_begin__ = 696;
+                    local_scalar_t__ ihd_event(DUMMY_VAR__);
+                    (void) ihd_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(ihd_event, DUMMY_VAR__);
+                    stan::math::fill(ihd_event, DUMMY_VAR__);
+                    current_statement_begin__ = 697;
+                    local_scalar_t__ mi_event(DUMMY_VAR__);
+                    (void) mi_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(mi_event, DUMMY_VAR__);
+                    stan::math::fill(mi_event, DUMMY_VAR__);
+                    current_statement_begin__ = 698;
+                    local_scalar_t__ renal_event(DUMMY_VAR__);
+                    (void) renal_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(renal_event, DUMMY_VAR__);
+                    stan::math::fill(renal_event, DUMMY_VAR__);
+                    current_statement_begin__ = 699;
+                    local_scalar_t__ stroke_event(DUMMY_VAR__);
+                    (void) stroke_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(stroke_event, DUMMY_VAR__);
+                    stan::math::fill(stroke_event, DUMMY_VAR__);
+                    current_statement_begin__ = 700;
+                    local_scalar_t__ rand(DUMMY_VAR__);
+                    (void) rand;  // dummy to suppress unused var warning
+                    stan::math::initialize(rand, DUMMY_VAR__);
+                    stan::math::fill(rand, DUMMY_VAR__);
+                    current_statement_begin__ = 701;
+                    stan::math::assign(intercept, normal_rng(-(6.916), 0.591, base_rng__));
+                    current_statement_begin__ = 702;
+                    stan::math::assign(year, normal_rng(0.042, 0.010, base_rng__));
+                    current_statement_begin__ = 703;
+                    stan::math::assign(age, normal_rng(0.058, 0.007, base_rng__));
+                    current_statement_begin__ = 704;
+                    stan::math::assign(smoker, normal_rng(0.444, 0.117, base_rng__));
+                    current_statement_begin__ = 705;
+                    stan::math::assign(amp_event, normal_rng(-(0.734), 0.321, base_rng__));
+                    current_statement_begin__ = 706;
+                    stan::math::assign(ihd_event, normal_rng(0.423, 0.168, base_rng__));
+                    current_statement_begin__ = 707;
+                    stan::math::assign(mi_event, normal_rng(1.309, 0.158, base_rng__));
+                    current_statement_begin__ = 708;
+                    stan::math::assign(renal_event, normal_rng(0.584, 0.305, base_rng__));
+                    current_statement_begin__ = 709;
+                    stan::math::assign(stroke_event, normal_rng(0.547, 0.176, base_rng__));
+                    current_statement_begin__ = 710;
+                    stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                    current_statement_begin__ = 711;
+                    stan::math::assign(update, simDeath1st(update, intercept, year, age, smoker, amp_event, ihd_event, mi_event, renal_event, stroke_event, rand, pstream__));
+                    }
+                } else if (as_bool(logical_gte(sum(stan::model::rvalue(update, stan::model::cons_list(stan::model::index_min_max(15, 22), stan::model::nil_index_list()), "update")), 1))) {
+                    {
+                    current_statement_begin__ = 715;
+                    local_scalar_t__ intercept(DUMMY_VAR__);
+                    (void) intercept;  // dummy to suppress unused var warning
+                    stan::math::initialize(intercept, DUMMY_VAR__);
+                    stan::math::fill(intercept, DUMMY_VAR__);
+                    current_statement_begin__ = 716;
+                    local_scalar_t__ phi(DUMMY_VAR__);
+                    (void) phi;  // dummy to suppress unused var warning
+                    stan::math::initialize(phi, DUMMY_VAR__);
+                    stan::math::fill(phi, DUMMY_VAR__);
+                    current_statement_begin__ = 717;
+                    local_scalar_t__ bm1(DUMMY_VAR__);
+                    (void) bm1;  // dummy to suppress unused var warning
+                    stan::math::initialize(bm1, DUMMY_VAR__);
+                    stan::math::fill(bm1, DUMMY_VAR__);
+                    current_statement_begin__ = 718;
+                    local_scalar_t__ bm2(DUMMY_VAR__);
+                    (void) bm2;  // dummy to suppress unused var warning
+                    stan::math::initialize(bm2, DUMMY_VAR__);
+                    stan::math::fill(bm2, DUMMY_VAR__);
+                    current_statement_begin__ = 719;
+                    local_scalar_t__ smoker(DUMMY_VAR__);
+                    (void) smoker;  // dummy to suppress unused var warning
+                    stan::math::initialize(smoker, DUMMY_VAR__);
+                    stan::math::fill(smoker, DUMMY_VAR__);
+                    current_statement_begin__ = 720;
+                    local_scalar_t__ amp(DUMMY_VAR__);
+                    (void) amp;  // dummy to suppress unused var warning
+                    stan::math::initialize(amp, DUMMY_VAR__);
+                    stan::math::fill(amp, DUMMY_VAR__);
+                    current_statement_begin__ = 721;
+                    local_scalar_t__ chf(DUMMY_VAR__);
+                    (void) chf;  // dummy to suppress unused var warning
+                    stan::math::initialize(chf, DUMMY_VAR__);
+                    stan::math::fill(chf, DUMMY_VAR__);
+                    current_statement_begin__ = 722;
+                    local_scalar_t__ renal(DUMMY_VAR__);
+                    (void) renal;  // dummy to suppress unused var warning
+                    stan::math::initialize(renal, DUMMY_VAR__);
+                    stan::math::fill(renal, DUMMY_VAR__);
+                    current_statement_begin__ = 723;
+                    local_scalar_t__ stroke(DUMMY_VAR__);
+                    (void) stroke;  // dummy to suppress unused var warning
+                    stan::math::initialize(stroke, DUMMY_VAR__);
+                    stan::math::fill(stroke, DUMMY_VAR__);
+                    current_statement_begin__ = 724;
+                    local_scalar_t__ rand(DUMMY_VAR__);
+                    (void) rand;  // dummy to suppress unused var warning
+                    stan::math::initialize(rand, DUMMY_VAR__);
+                    stan::math::fill(rand, DUMMY_VAR__);
+                    current_statement_begin__ = 725;
+                    stan::math::assign(intercept, normal_rng(-(9.207), 0.591, base_rng__));
+                    current_statement_begin__ = 726;
+                    stan::math::assign(phi, ro_rng(0.073, 0.007, base_rng__, pstream__));
+                    current_statement_begin__ = 727;
+                    stan::math::assign(bm1, normal_rng(1.083, 0.511, base_rng__));
+                    current_statement_begin__ = 728;
+                    stan::math::assign(bm2, normal_rng(-(0.293), 0.114, base_rng__));
+                    current_statement_begin__ = 729;
+                    stan::math::assign(smoker, normal_rng(0.374, 0.133, base_rng__));
+                    current_statement_begin__ = 730;
+                    stan::math::assign(amp, normal_rng(0.539, 0.198, base_rng__));
+                    current_statement_begin__ = 731;
+                    stan::math::assign(chf, normal_rng(0.632, 0.130, base_rng__));
+                    current_statement_begin__ = 732;
+                    stan::math::assign(renal, normal_rng(1.150, 0.197, base_rng__));
+                    current_statement_begin__ = 733;
+                    stan::math::assign(stroke, normal_rng(0.473, 0.122, base_rng__));
+                    current_statement_begin__ = 734;
+                    stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                    current_statement_begin__ = 735;
+                    stan::math::assign(update, simDeath_hist(update, intercept, phi, bm1, bm2, smoker, amp, chf, renal, stroke, rand, pstream__));
+                    }
+                } else {
+                    {
+                    current_statement_begin__ = 739;
+                    local_scalar_t__ intercept(DUMMY_VAR__);
+                    (void) intercept;  // dummy to suppress unused var warning
+                    stan::math::initialize(intercept, DUMMY_VAR__);
+                    stan::math::fill(intercept, DUMMY_VAR__);
+                    current_statement_begin__ = 740;
+                    local_scalar_t__ age(DUMMY_VAR__);
+                    (void) age;  // dummy to suppress unused var warning
+                    stan::math::initialize(age, DUMMY_VAR__);
+                    stan::math::fill(age, DUMMY_VAR__);
+                    current_statement_begin__ = 741;
+                    local_scalar_t__ hdl(DUMMY_VAR__);
+                    (void) hdl;  // dummy to suppress unused var warning
+                    stan::math::initialize(hdl, DUMMY_VAR__);
+                    stan::math::fill(hdl, DUMMY_VAR__);
+                    current_statement_begin__ = 742;
+                    local_scalar_t__ amp_event(DUMMY_VAR__);
+                    (void) amp_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(amp_event, DUMMY_VAR__);
+                    stan::math::fill(amp_event, DUMMY_VAR__);
+                    current_statement_begin__ = 743;
+                    local_scalar_t__ amp(DUMMY_VAR__);
+                    (void) amp;  // dummy to suppress unused var warning
+                    stan::math::initialize(amp, DUMMY_VAR__);
+                    stan::math::fill(amp, DUMMY_VAR__);
+                    current_statement_begin__ = 744;
+                    local_scalar_t__ amp_event2(DUMMY_VAR__);
+                    (void) amp_event2;  // dummy to suppress unused var warning
+                    stan::math::initialize(amp_event2, DUMMY_VAR__);
+                    stan::math::fill(amp_event2, DUMMY_VAR__);
+                    current_statement_begin__ = 745;
+                    local_scalar_t__ ihd_event(DUMMY_VAR__);
+                    (void) ihd_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(ihd_event, DUMMY_VAR__);
+                    stan::math::fill(ihd_event, DUMMY_VAR__);
+                    current_statement_begin__ = 746;
+                    local_scalar_t__ ihd(DUMMY_VAR__);
+                    (void) ihd;  // dummy to suppress unused var warning
+                    stan::math::initialize(ihd, DUMMY_VAR__);
+                    stan::math::fill(ihd, DUMMY_VAR__);
+                    current_statement_begin__ = 747;
+                    local_scalar_t__ mi_event(DUMMY_VAR__);
+                    (void) mi_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(mi_event, DUMMY_VAR__);
+                    stan::math::fill(mi_event, DUMMY_VAR__);
+                    current_statement_begin__ = 748;
+                    local_scalar_t__ mi(DUMMY_VAR__);
+                    (void) mi;  // dummy to suppress unused var warning
+                    stan::math::initialize(mi, DUMMY_VAR__);
+                    stan::math::fill(mi, DUMMY_VAR__);
+                    current_statement_begin__ = 749;
+                    local_scalar_t__ renal(DUMMY_VAR__);
+                    (void) renal;  // dummy to suppress unused var warning
+                    stan::math::initialize(renal, DUMMY_VAR__);
+                    stan::math::fill(renal, DUMMY_VAR__);
+                    current_statement_begin__ = 750;
+                    local_scalar_t__ stroke_event(DUMMY_VAR__);
+                    (void) stroke_event;  // dummy to suppress unused var warning
+                    stan::math::initialize(stroke_event, DUMMY_VAR__);
+                    stan::math::fill(stroke_event, DUMMY_VAR__);
+                    current_statement_begin__ = 751;
+                    local_scalar_t__ rand(DUMMY_VAR__);
+                    (void) rand;  // dummy to suppress unused var warning
+                    stan::math::initialize(rand, DUMMY_VAR__);
+                    stan::math::fill(rand, DUMMY_VAR__);
+                    current_statement_begin__ = 752;
+                    stan::math::assign(intercept, normal_rng(-(4.868), 0.828, base_rng__));
+                    current_statement_begin__ = 753;
+                    stan::math::assign(age, normal_rng(0.050, 0.010, base_rng__));
+                    current_statement_begin__ = 754;
+                    stan::math::assign(hdl, normal_rng(0.068, 0.030, base_rng__));
+                    current_statement_begin__ = 755;
+                    stan::math::assign(amp_event, normal_rng(-(1.267), 0.344, base_rng__));
+                    current_statement_begin__ = 756;
+                    stan::math::assign(amp, normal_rng(0.753, 0.300, base_rng__));
+                    current_statement_begin__ = 757;
+                    stan::math::assign(amp_event2, normal_rng(-(1.727), 0.467, base_rng__));
+                    current_statement_begin__ = 758;
+                    stan::math::assign(ihd_event, normal_rng(0.583, 0.243, base_rng__));
+                    current_statement_begin__ = 759;
+                    stan::math::assign(ihd, normal_rng(-(0.507), 0.191, base_rng__));
+                    current_statement_begin__ = 760;
+                    stan::math::assign(mi_event, normal_rng(0.982, 0.230, base_rng__));
+                    current_statement_begin__ = 761;
+                    stan::math::assign(mi, normal_rng(0.440, 0.186, base_rng__));
+                    current_statement_begin__ = 762;
+                    stan::math::assign(renal, normal_rng(0.961, 0.396, base_rng__));
+                    current_statement_begin__ = 763;
+                    stan::math::assign(stroke_event, normal_rng(-(0.619), 0.246, base_rng__));
+                    current_statement_begin__ = 764;
+                    stan::math::assign(rand, uniform_rng(0, 1, base_rng__));
+                    current_statement_begin__ = 765;
+                    stan::math::assign(update, simDeath_sub(update, intercept, age, hdl, amp_event, amp, amp_event2, ihd_event, ihd, mi_event, mi, renal, stroke_event, rand, pstream__));
+                    }
+                }
+                current_statement_begin__ = 768;
+                if (as_bool(logical_neq(get_base1(update, 23, "update", 1), 0))) {
+                    {
+                    current_statement_begin__ = 769;
+                    local_scalar_t__ hba1c_red1_comp1(DUMMY_VAR__);
+                    (void) hba1c_red1_comp1;  // dummy to suppress unused var warning
+                    stan::math::initialize(hba1c_red1_comp1, DUMMY_VAR__);
+                    stan::math::fill(hba1c_red1_comp1, DUMMY_VAR__);
+                    current_statement_begin__ = 770;
+                    local_scalar_t__ weight_red1_comp1(DUMMY_VAR__);
+                    (void) weight_red1_comp1;  // dummy to suppress unused var warning
+                    stan::math::initialize(weight_red1_comp1, DUMMY_VAR__);
+                    stan::math::fill(weight_red1_comp1, DUMMY_VAR__);
+                    current_statement_begin__ = 771;
+                    local_scalar_t__ ldl_red1_comp1(DUMMY_VAR__);
+                    (void) ldl_red1_comp1;  // dummy to suppress unused var warning
+                    stan::math::initialize(ldl_red1_comp1, DUMMY_VAR__);
+                    stan::math::fill(ldl_red1_comp1, DUMMY_VAR__);
+                    current_statement_begin__ = 772;
+                    local_scalar_t__ hdl_red1_comp1(DUMMY_VAR__);
+                    (void) hdl_red1_comp1;  // dummy to suppress unused var warning
+                    stan::math::initialize(hdl_red1_comp1, DUMMY_VAR__);
+                    stan::math::fill(hdl_red1_comp1, DUMMY_VAR__);
+                    current_statement_begin__ = 773;
+                    local_scalar_t__ hba1c_red1(DUMMY_VAR__);
+                    (void) hba1c_red1;  // dummy to suppress unused var warning
+                    stan::math::initialize(hba1c_red1, DUMMY_VAR__);
+                    stan::math::fill(hba1c_red1, DUMMY_VAR__);
+                    current_statement_begin__ = 774;
+                    local_scalar_t__ weight_red1(DUMMY_VAR__);
+                    (void) weight_red1;  // dummy to suppress unused var warning
+                    stan::math::initialize(weight_red1, DUMMY_VAR__);
+                    stan::math::fill(weight_red1, DUMMY_VAR__);
+                    current_statement_begin__ = 775;
+                    local_scalar_t__ ldl_red1(DUMMY_VAR__);
+                    (void) ldl_red1;  // dummy to suppress unused var warning
+                    stan::math::initialize(ldl_red1, DUMMY_VAR__);
+                    stan::math::fill(ldl_red1, DUMMY_VAR__);
+                    current_statement_begin__ = 776;
+                    local_scalar_t__ hdl_red1(DUMMY_VAR__);
+                    (void) hdl_red1;  // dummy to suppress unused var warning
+                    stan::math::initialize(hdl_red1, DUMMY_VAR__);
+                    stan::math::fill(hdl_red1, DUMMY_VAR__);
+                    current_statement_begin__ = 777;
+                    local_scalar_t__ sbp_red1_comp1(DUMMY_VAR__);
+                    (void) sbp_red1_comp1;  // dummy to suppress unused var warning
+                    stan::math::initialize(sbp_red1_comp1, DUMMY_VAR__);
+                    stan::math::fill(sbp_red1_comp1, DUMMY_VAR__);
+                    current_statement_begin__ = 778;
+                    local_scalar_t__ sbp_red1(DUMMY_VAR__);
+                    (void) sbp_red1;  // dummy to suppress unused var warning
+                    stan::math::initialize(sbp_red1, DUMMY_VAR__);
+                    stan::math::fill(sbp_red1, DUMMY_VAR__);
+                    current_statement_begin__ = 780;
+                    stan::math::assign(hba1c_red1_comp1, normal_rng(hba1c_red1_comp1_mean, hba1c_red1_comp1_se, base_rng__));
+                    current_statement_begin__ = 781;
+                    stan::math::assign(weight_red1_comp1, normal_rng(weight_red1_comp1_mean, weight_red1_comp1_se, base_rng__));
+                    current_statement_begin__ = 782;
+                    stan::math::assign(ldl_red1_comp1, normal_rng(ldl_red1_comp1_mean, ldl_red1_comp1_se, base_rng__));
+                    current_statement_begin__ = 783;
+                    stan::math::assign(hdl_red1_comp1, normal_rng(hdl_red1_comp1_mean, hdl_red1_comp1_se, base_rng__));
+                    current_statement_begin__ = 784;
+                    stan::math::assign(sbp_red1_comp1, normal_rng(t_sbp_red1_comp1_mean, t_sbp_red1_comp1_se, base_rng__));
+                    current_statement_begin__ = 792;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(7), stan::model::nil_index_list()), 
+                                (get_base1(history, 7, "history", 1) + hba1c_red1_comp1), 
+                                "assigning variable update");
+                    current_statement_begin__ = 793;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(10), stan::model::nil_index_list()), 
+                                (get_base1(history, 10, "history", 1) + weight_red1_comp1), 
+                                "assigning variable update");
+                    current_statement_begin__ = 794;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(8), stan::model::nil_index_list()), 
+                                (get_base1(history, 8, "history", 1) + ldl_red1_comp1), 
+                                "assigning variable update");
+                    current_statement_begin__ = 795;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(9), stan::model::nil_index_list()), 
+                                (get_base1(history, 9, "history", 1) + hdl_red1_comp1), 
+                                "assigning variable update");
+                    current_statement_begin__ = 796;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(14), stan::model::nil_index_list()), 
+                                (get_base1(history, 14, "history", 1) + sbp_red1_comp1), 
+                                "assigning variable update");
+                    current_statement_begin__ = 797;
+                    stan::model::assign(update, 
+                                stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
+                                (stan::model::rvalue(update, stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), "update") + 1), 
+                                "assigning variable update");
+                    }
+                }
+                current_statement_begin__ = 799;
+                stan::model::assign(mat_temp, 
+                            stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
+                            update, 
+                            "assigning variable mat_temp");
+                current_statement_begin__ = 800;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(24), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 801;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(25), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 802;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(26), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 803;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(27), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 804;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(28), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 805;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(29), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 806;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(30), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                current_statement_begin__ = 807;
+                stan::model::assign(update, 
+                            stan::model::cons_list(stan::model::index_uni(31), stan::model::nil_index_list()), 
+                            0, 
+                            "assigning variable update");
+                }
+            }
+            // validate, write generated quantities
+            current_statement_begin__ = 394;
+            size_t mat_temp_k_0_max__ = time;
+            size_t mat_temp_k_1_max__ = len_his;
+            for (size_t k_1__ = 0; k_1__ < mat_temp_k_1_max__; ++k_1__) {
+                for (size_t k_0__ = 0; k_0__ < mat_temp_k_0_max__; ++k_0__) {
+                    vars__.push_back(mat_temp[k_0__][k_1__]);
+                }
+            }
+            current_statement_begin__ = 395;
+            size_t order_k_0_max__ = complicaciones;
+            for (size_t k_0__ = 0; k_0__ < order_k_0_max__; ++k_0__) {
+                vars__.push_back(order[k_0__]);
+            }
+            current_statement_begin__ = 396;
+            stan::math::check_simplex(function__, "theta", theta);
+            size_t theta_j_1_max__ = complicaciones;
+            for (size_t j_1__ = 0; j_1__ < theta_j_1_max__; ++j_1__) {
+                vars__.push_back(theta(j_1__));
+            }
+            current_statement_begin__ = 397;
+            size_t history_k_0_max__ = len_his;
+            for (size_t k_0__ = 0; k_0__ < history_k_0_max__; ++k_0__) {
+                vars__.push_back(history[k_0__]);
+            }
+            current_statement_begin__ = 398;
+            size_t update_k_0_max__ = len_his;
+            for (size_t k_0__ = 0; k_0__ < update_k_0_max__; ++k_0__) {
+                vars__.push_back(update[k_0__]);
+            }
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -272,31 +3508,85 @@ public:
                                  bool include_tparams__ = true,
                                  bool include_gqs__ = true) const {
         std::stringstream param_name_stream__;
-        param_name_stream__.str(std::string());
-        param_name_stream__ << "mu";
-        param_names__.push_back(param_name_stream__.str());
-        param_name_stream__.str(std::string());
-        param_name_stream__ << "sigma";
-        param_names__.push_back(param_name_stream__.str());
         if (!include_gqs__ && !include_tparams__) return;
         if (include_tparams__) {
         }
         if (!include_gqs__) return;
+        size_t mat_temp_k_0_max__ = time;
+        size_t mat_temp_k_1_max__ = len_his;
+        for (size_t k_1__ = 0; k_1__ < mat_temp_k_1_max__; ++k_1__) {
+            for (size_t k_0__ = 0; k_0__ < mat_temp_k_0_max__; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mat_temp" << '.' << k_0__ + 1 << '.' << k_1__ + 1;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        size_t order_k_0_max__ = complicaciones;
+        for (size_t k_0__ = 0; k_0__ < order_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "order" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t theta_j_1_max__ = complicaciones;
+        for (size_t j_1__ = 0; j_1__ < theta_j_1_max__; ++j_1__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "theta" << '.' << j_1__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t history_k_0_max__ = len_his;
+        for (size_t k_0__ = 0; k_0__ < history_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "history" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t update_k_0_max__ = len_his;
+        for (size_t k_0__ = 0; k_0__ < update_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "update" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
     }
     void unconstrained_param_names(std::vector<std::string>& param_names__,
                                    bool include_tparams__ = true,
                                    bool include_gqs__ = true) const {
         std::stringstream param_name_stream__;
-        param_name_stream__.str(std::string());
-        param_name_stream__ << "mu";
-        param_names__.push_back(param_name_stream__.str());
-        param_name_stream__.str(std::string());
-        param_name_stream__ << "sigma";
-        param_names__.push_back(param_name_stream__.str());
         if (!include_gqs__ && !include_tparams__) return;
         if (include_tparams__) {
         }
         if (!include_gqs__) return;
+        size_t mat_temp_k_0_max__ = time;
+        size_t mat_temp_k_1_max__ = len_his;
+        for (size_t k_1__ = 0; k_1__ < mat_temp_k_1_max__; ++k_1__) {
+            for (size_t k_0__ = 0; k_0__ < mat_temp_k_0_max__; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mat_temp" << '.' << k_0__ + 1 << '.' << k_1__ + 1;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        size_t order_k_0_max__ = complicaciones;
+        for (size_t k_0__ = 0; k_0__ < order_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "order" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t theta_j_1_max__ = (complicaciones - 1);
+        for (size_t j_1__ = 0; j_1__ < theta_j_1_max__; ++j_1__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "theta" << '.' << j_1__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t history_k_0_max__ = len_his;
+        for (size_t k_0__ = 0; k_0__ < history_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "history" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
+        size_t update_k_0_max__ = len_his;
+        for (size_t k_0__ = 0; k_0__ < update_k_0_max__; ++k_0__) {
+            param_name_stream__.str(std::string());
+            param_name_stream__ << "update" << '.' << k_0__ + 1;
+            param_names__.push_back(param_name_stream__.str());
+        }
     }
 }; // model
 }  // namespace
