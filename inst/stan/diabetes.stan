@@ -25,7 +25,7 @@ functions {
     }
     return temp;
   }
-  real[] simIHD(real[] update,real intercept,real ro, real age_diab, real ldl, real amp,
+  real[] simIHD(real[] update,real intercept,real ro, real age_diab, real ldl, real amp,real efgr, real pvd,
   real chf, real sbp,real hdl,real female, real rand){
     real predictor;
     real H1;
@@ -34,7 +34,8 @@ functions {
     real temp[size(update)];
 
     temp=update;
-    predictor=intercept+age_diab*temp[2]+ldl*temp[8]+amp*temp[21]+chf*temp[19]+sbp*temp[14]+hdl*temp[9]+female*temp[3];
+    predictor=intercept+age_diab*temp[2]+ldl*temp[8]+amp*temp[21]+chf*temp[19]+sbp*temp[14]+hdl*temp[9]+
+    female*temp[3]+efgr*temp[33]+pvd*temp[32];
     H1=exp(predictor)*temp[12]^(ro);
     H2=exp(predictor)*(temp[12]+1)^(ro);
     prob=1 - exp(H1 - H2);
@@ -234,7 +235,7 @@ functions {
     }
     return temp;
   }
-  real[] simRenal(real[] update,real intercept, real age_diab,real female,real bmi, real ldl, real sbp,real amp,
+  real[] simRenal(real[] update,real intercept, real age_diab,real female,real bmi, real ldl, real sbp,real amp,real efgr,
   real blind, real rand){
     real predictor;
     real H1;
@@ -244,7 +245,7 @@ functions {
 
     temp=update;
     predictor=intercept+age_diab*temp[2]+bmi*temp[13]+ldl*temp[8]+amp*temp[21]+blind*temp[20]+
-    female*temp[3]+sbp*temp[6];
+    female*temp[3]+sbp*temp[6]+efgr*temp[33];
     H1=exp(predictor)*temp[12];
     H2=exp(predictor)*(temp[12]+1);
     prob=1 - exp(H1 - H2);
@@ -353,6 +354,8 @@ data {
   real ampu;
   real rena;
   real ulce;
+  real pv;
+  real efg;
 
 
   real hba1c_red1_comp1_mean;
@@ -399,7 +402,8 @@ generated quantities {
   history[1]=ag;history[2]=age_dia;history[3]=woma;history[4]=eth;history[5]=smok;history[6]=sb;history[7]=hba1;history[8]=ld;
   history[9]=hd;history[10]=weigh;history[11]=tall;history[12]=ag-age_dia;history[13]=weigh/(tall^2);history[14]=sb/10;history[15]=ulce;history[16]=mii;
   history[17]=strok;history[18]=ih;history[19]=ch;history[20]=blin;history[21]=ampu;history[22]=rena;history[23]=1;history[24]=0;
-  history[25]=0;history[26]=0;history[27]=0;history[28]=0;history[29]=0;history[30]=0;history[31]=0;
+  history[25]=0;history[26]=0;history[27]=0;history[28]=0;history[29]=0;history[30]=0;history[31]=0;history[32]=pv;history[33]=efg;
+  // agregue pvd y efgr
   update=history;
   //mat_temp[1]=history;
   for (i in 1:time){
@@ -448,6 +452,8 @@ generated quantities {
           real sbp;
           real hdl;
           real female;
+          real efgr;
+          real pvd;
           real rand;
           intercept=normal_rng(-6.709,0.503);
           ro=ro_rng(1.276,0.059);
@@ -458,8 +464,11 @@ generated quantities {
           sbp=normal_rng(0.058,0.019);
           hdl=normal_rng(-0.065,0.014);
           female=normal_rng(-0.532,0.085);
+          efgr=normal_rng(-0.053,0.023);
+          pvd=normal_rng(0.486,0.181);
+
           rand=uniform_rng(0,1);
-          update=simIHD(update,intercept,ro,age_diab,chf,ldl,amp,
+          update=simIHD(update,intercept,ro,age_diab,chf,ldl,amp,efgr,pvd,
           sbp,hdl,female,rand);
           }
     }
@@ -658,6 +667,7 @@ generated quantities {
           real sbp;
           real amp;
           real blind;
+          real efgr;
           real rand;
           intercept=normal_rng(3.549,1.480);
           age_diab=normal_rng(-0.029,0.013);
@@ -668,7 +678,11 @@ generated quantities {
           amp=normal_rng(1.108,0.337);
           blind=normal_rng(0.732,0.290);
           rand=uniform_rng(0,1);
-          update=simRenal(update,intercept,age_diab,female,bmi,ldl,sbp,amp,
+          if(update[33]<=60)
+          efgr=normal_rng(-1.031,0.085);
+          else
+          efgr=normal_rng(-0.487,0.136);
+          update=simRenal(update,intercept,age_diab,female,bmi,ldl,sbp,amp,efgr,
           blind,rand);
         }
       }
