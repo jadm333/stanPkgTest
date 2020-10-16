@@ -669,7 +669,7 @@ generated quantities {
           real blind;
           real efgr;
           real rand;
-          intercept=normal_rng(3.549,1.480);
+          intercept=normal_rng(-3.549,1.480);
           age_diab=normal_rng(-0.029,0.013);
           female=normal_rng(-0.869,0.224);
           bmi=normal_rng(-0.054,0.020);
