@@ -3041,7 +3041,7 @@ public:
                             stan::math::initialize(rand, DUMMY_VAR__);
                             stan::math::fill(rand, DUMMY_VAR__);
                             current_statement_begin__ = 672;
-                            stan::math::assign(intercept, normal_rng(3.549, 1.480, base_rng__));
+                            stan::math::assign(intercept, normal_rng(-(3.549), 1.480, base_rng__));
                             current_statement_begin__ = 673;
                             stan::math::assign(age_diab, normal_rng(-(0.029), 0.013, base_rng__));
                             current_statement_begin__ = 674;
