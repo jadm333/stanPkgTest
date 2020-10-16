@@ -354,8 +354,6 @@ data {
   real ampu;
   real rena;
   real ulce;
-  real pv;
-  real efg;
 
 
   real hba1c_red1_comp1_mean;
@@ -402,7 +400,7 @@ generated quantities {
   history[1]=ag;history[2]=age_dia;history[3]=woma;history[4]=eth;history[5]=smok;history[6]=sb;history[7]=hba1;history[8]=ld;
   history[9]=hd;history[10]=weigh;history[11]=tall;history[12]=ag-age_dia;history[13]=weigh/(tall^2);history[14]=sb/10;history[15]=ulce;history[16]=mii;
   history[17]=strok;history[18]=ih;history[19]=ch;history[20]=blin;history[21]=ampu;history[22]=rena;history[23]=1;history[24]=0;
-  history[25]=0;history[26]=0;history[27]=0;history[28]=0;history[29]=0;history[30]=0;history[31]=0;history[32]=pv;history[33]=efg;
+  history[25]=0;history[26]=0;history[27]=0;history[28]=0;history[29]=0;history[30]=0;history[31]=0;history[32]=0.5;history[33]=74.0/10;
   // agregue pvd y efgr
   update=history;
   //mat_temp[1]=history;
@@ -669,7 +667,7 @@ generated quantities {
           real blind;
           real efgr;
           real rand;
-          intercept=normal_rng(-3.549,1.480);
+          intercept=normal_rng(-13.549,1.480);
           age_diab=normal_rng(-0.029,0.013);
           female=normal_rng(-0.869,0.224);
           bmi=normal_rng(-0.054,0.020);

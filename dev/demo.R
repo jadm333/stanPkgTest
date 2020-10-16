@@ -31,7 +31,7 @@ ulce=0
 #history=c(age,age_diab,woman,ethn,smoke,sbp,hba1c,ldl,hdl,weight,talla,age-age_diab,weight/(talla^2),sbp/10,ulcer,mi,stroke,ihd,
 #chf,blind,amput,renal,1,0,0,0,0,0,0,0,0)
 
-len_his=31
+len_his=33
 
 
 hba1c_red1_comp1_mean=-1.6
@@ -63,9 +63,10 @@ library(rstan)
 options(mc.cores = 4)
 rstan_options(auto_write = TRUE)
 
-library(simDiabetesStan)
 
-m=diabetes_stan()
+m=stan_model(file = 'inst/stan/diabetes.stan')
+
+
 fit <- sampling(m, data=stan_data,
                 iter=10000, warmup=0, chains=1,
                 algorithm="Fixed_param")
@@ -73,4 +74,4 @@ fit <- sampling(m, data=stan_data,
 
 
 stan_fit <- extract(fit)
-
+summary(stan_fit$update)
